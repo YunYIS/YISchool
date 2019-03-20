@@ -1,15 +1,14 @@
 package com.example.yischool;
 
-import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
-import searcheditview.EditTextView;
+public class MainActivity extends AppCompatActivity{
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private EditTextView editTextView;
+    private TabLayout tabLayout;
+    private Fragment fragment = HomePageFragment.newInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,17 +17,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init(){
-        editTextView = findViewById(R.id.search_edit_text);
-        editTextView.setOnClickListener(this);
+        //进入MainActivity添加HomePageFragment
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        //初始化tabLayout，并添加下方tab键
+        tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home_page).setText("首页"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_communication).setText("消息"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_publish).setText("发布"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_shopping_cart).setText("购物车"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_person).setText("个人"));
+        //监听事件
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        fragment = HomePageFragment.newInstance();
+                        break;
+                    case 1:
+                        fragment = CommunicativeFragment.newInstance();
+                        break;
+                    case 2:
+                        fragment = PublishFragment.newInstance();
+                        break;
+                    case 3:
+                        fragment = ShoppingCartFragment.newInstance();
+                        break;
+                    case 4:
+                        fragment = PersonalFragment.newInstance();
+                        break;
+                    default:break;
+                }
+                if(fragment != null){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+        });
     }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.search_edit_text:
-                Intent startSearchActivity = new Intent(this, SearchActivity.class);
-                startActivity(startSearchActivity);
-                break;
-            default:break;
-        }
-    }
+
+
 }

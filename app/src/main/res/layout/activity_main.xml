@@ -4,40 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tab_layout"
+        app:layout_constraintVertical_weight="1">
+    </FrameLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/yi_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/title_yi"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <searcheditview.EditTextView
-            android:id="@+id/search_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/edit_text_border"
-            android:drawableStart="@drawable/ic_search"
-            android:drawableLeft="@drawable/ic_search"
-            android:focusable="false"/>
-
-    </android.support.v7.widget.Toolbar>
-
+        app:layout_constraintTop_toBottomOf="@id/frame_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tabTextColor="#3E3E3E">
+    </android.support.design.widget.TabLayout>
 
 </android.support.constraint.ConstraintLayout>

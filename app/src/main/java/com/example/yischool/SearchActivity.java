@@ -22,9 +22,13 @@ import searcheditview.EditTextView;
 /**
  * @author 张云天
  * @date on 2019/3/19
- * @describe 
+ * @describe 搜索页面
+ * 功能： 用户输入搜索内容，查看搜索历史，点击搜索，跳转搜索结果界面
  */
 public class  SearchActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final String SEARCH_CONTENT = "search_content_key";//以键值对的形式向搜索结果页面传递信息（key值）
+    public static final String SHARED_PREFERENCE_NAME = "searchHistory";//sharedPreference文件名
 
     private ImageView backImgView;//返回按钮
     private EditTextView editTextView;//输入框
@@ -33,6 +37,7 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
     private HashSet<String> historyData;//搜索历史数据源，由SharedPreferences提供，也可以由搜索按钮添加;
     private SearchListAdapter adapter;//自定义ListView适配器，主要为适配HashSet数据源
     private SharedPreferences sharedPreferences;//本地存储搜索历史记录
+    private Intent startSearchResultActivity = new Intent(this, SearchResultActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
         backImgView.setOnClickListener(this);
         searchButton.setOnClickListener(this);
         //从本地获取搜索历史记录，并用HashSet存储
-        sharedPreferences = getSharedPreferences("searchHistory", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCE_NAME, MODE_PRIVATE);
         HashMap<String,String> historyMap = (HashMap<String, String>) sharedPreferences.getAll();
         historyData = new HashSet<>();
         if(historyMap != null && historyMap.size() > 0){
@@ -67,7 +72,11 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editTextView.setText((String)adapter.getItem(position));
+                String historyContentStr = (String)adapter.getItem(position);//获取history内容
+                editTextView.setText(historyContentStr);
+                editTextView.setSelection(historyContentStr.length());
+                startSearchResultActivity.putExtra(SEARCH_CONTENT, historyContentStr);
+                startActivity(startSearchResultActivity);
             }
         });
     }
@@ -86,10 +95,10 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                 String editContent = editTextView.getText().toString();//搜索内容字符串
                 Log.d("onClick edit", editContent);
                 if(editContent != null && editContent.length() > 0){//搜索框内容不为空
+                    startSearchResultActivity.putExtra(SEARCH_CONTENT, editContent);
+                    startActivity(startSearchResultActivity);//跳转搜索结果界面
                     historyData.add(editContent);//由于是HashSet类型，所以数据不会重复
                     adapter.notifyDataSetChanged();
-                    Intent startSearchResultActivity = new Intent(this, SearchResultActivity.class);
-                    startActivity(startSearchResultActivity);
                 }
                 break;
             default:break;

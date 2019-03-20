@@ -34,6 +34,7 @@ public class SearchListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
+        //访问集合position位置的元素
         Iterator<String> iterator = dataSet.iterator();
         for(int i = 0; i < position; i++){
             if(iterator.hasNext()){
