@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ImgTextButton">
+        <attr name="text" format="string"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textColorPress" format="color"/>
+        <attr name="imageDrawable" format="reference|integer"/>
+        <attr name="spacing" format="dimension"/> <!--image与text之间的距离-->
+        <attr name="background" format="reference"/>
+    </declare-styleable>
+</resources>

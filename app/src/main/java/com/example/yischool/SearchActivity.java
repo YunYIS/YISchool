@@ -6,18 +6,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
 import adapter.SearchListAdapter;
-import searcheditview.EditTextView;
+import customview.EditTextView;
 
 /**
  * @author 张云天
@@ -37,7 +35,6 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
     private HashSet<String> historyData;//搜索历史数据源，由SharedPreferences提供，也可以由搜索按钮添加;
     private SearchListAdapter adapter;//自定义ListView适配器，主要为适配HashSet数据源
     private SharedPreferences sharedPreferences;//本地存储搜索历史记录
-    private Intent startSearchResultActivity = new Intent(this, SearchResultActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +72,7 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                 String historyContentStr = (String)adapter.getItem(position);//获取history内容
                 editTextView.setText(historyContentStr);
                 editTextView.setSelection(historyContentStr.length());
+                Intent startSearchResultActivity = new Intent(SearchActivity.this, SearchResultActivity.class);
                 startSearchResultActivity.putExtra(SEARCH_CONTENT, historyContentStr);
                 startActivity(startSearchResultActivity);
             }
@@ -95,6 +93,7 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                 String editContent = editTextView.getText().toString();//搜索内容字符串
                 Log.d("onClick edit", editContent);
                 if(editContent != null && editContent.length() > 0){//搜索框内容不为空
+                    Intent startSearchResultActivity = new Intent(this, SearchResultActivity.class);
                     startSearchResultActivity.putExtra(SEARCH_CONTENT, editContent);
                     startActivity(startSearchResultActivity);//跳转搜索结果界面
                     historyData.add(editContent);//由于是HashSet类型，所以数据不会重复

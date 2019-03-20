@@ -5,9 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="shopping Fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <customview.ImgTextButton
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:imageDrawable="@drawable/ic_home_page"
+        app:text="ke_yi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </customview.ImgTextButton>
 
 </android.support.constraint.ConstraintLayout>
