@@ -23,11 +23,16 @@ public class MainActivity extends AppCompatActivity{
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
         //初始化tabLayout，并添加下方tab键
         tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setCustomView(new ImgTextButton(this).setText("首页").setImage(R.drawable.ic_home_page)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(new ImgTextButton(this).setText("消息").setImage(R.drawable.ic_communication)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(new ImgTextButton(this).setText("发布").setImage(R.drawable.ic_publish)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(new ImgTextButton(this).setText("购物车").setImage(R.drawable.ic_shopping_cart)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(new ImgTextButton(this).setText("个人").setImage(R.drawable.ic_person)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(
+                new ImgTextButton(this).setText("首页").setIsTouch(false).setImage(R.drawable.ic_home_page)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(
+                new ImgTextButton(this).setText("消息").setIsTouch(false).setImage(R.drawable.ic_communication)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(
+                new ImgTextButton(this).setText("发布").setIsTouch(false).setImage(R.drawable.ic_publish)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(
+                new ImgTextButton(this).setText("购物车").setIsTouch(false).setImage(R.drawable.ic_shopping_cart)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(
+                new ImgTextButton(this).setText("个人").setIsTouch(false).setImage(R.drawable.ic_person)));
 
 //        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home_page).setText("首页"));
 //        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_communication).setText("消息"));

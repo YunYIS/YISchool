@@ -6,6 +6,18 @@
         <attr name="textColor" format="color"/>
         <attr name="textColorPress" format="color"/>
         <attr name="imageDrawable" format="reference|integer"/>
+        <attr name="imageScaleType">
+            <enum name="fitStart" value="0"/>
+            <enum name="fitCenter" value="1"/>
+            <enum name="fitEnd" value="2"/>
+            <enum name="center" value="3"/>
+            <enum name="centerCrop" value="4"/>
+            <enum name="centerInside" value="5"/>
+            <enum name="fitXY" value="6"/>
+        </attr>
+        <attr name="imageWidth" format="dimension"/>
+        <attr name="imageHeight" format="dimension"/>
+        <attr name="imageMarginTop" format="dimension"/>
         <attr name="spacing" format="dimension"/> <!--image与text之间的距离-->
         <attr name="background" format="reference"/>
     </declare-styleable>
