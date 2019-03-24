@@ -25,7 +25,7 @@ public class ImgTextButton extends LinearLayout {
     private boolean isActionDown = false;//是否从控件范围内按下（而不是从控件外移动而来）
     private boolean isTouch = true;//设置控件是否可以响应触摸事件（主要因为复用了TabLayout的tab键，它不需要点击功能），默认可以响应触摸
 
-    private int viewId;//判断那个view调用
+//    private int viewId;//判断那个view调用
     private Context context;
     private ImageView imageView;
     private TextView textView;
@@ -135,15 +135,15 @@ public class ImgTextButton extends LinearLayout {
      * 设置实现了点击事件接口的子类对象
      * @param listener
      */
-    public void setOnClickedListener(OnClickedListener listener, int id){
+    public void setOnClickedListener(OnClickedListener listener){
         this.listener = listener;
-        viewId = id;
+//        viewId = id;
     }
     /**
      * 点击事件回调接口
      */
     public interface OnClickedListener{
-        void onImgTextClick(int viewId);
+        void onImgTextClick(View v);
     }
 
     /**
@@ -171,7 +171,7 @@ public class ImgTextButton extends LinearLayout {
                     break;
                 case MotionEvent.ACTION_UP:
                     if(isActionDown && listener != null){//点击条件达成，并注册了点击监听事件，执行点击事件方法
-                        listener.onImgTextClick(viewId);
+                        listener.onImgTextClick(this);
                         Log.d("ImgTextButton", "action_UP isActionDown " + isActionDown);
                     }
                     Log.d("ImgTextButton", "action_UP isActionDown " + isActionDown);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/card_commodity_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/ic_clean"/>
+        <TextView
+            android:id="@+id/card_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_commodity_image_view"
+            tools:text="标题"
+            android:lines="2"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/card_child_margin"/>
+        <TextView
+            android:id="@+id/card_price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_title_text_view"
+            tools:text="价格"
+            android:textColor="#7E0000"
+            android:layout_marginTop="@dimen/card_child_margin"/>
+        <TextView
+            android:id="@+id/card_collect_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/card_title_text_view"
+            android:layout_alignTop="@id/card_price_text_view"
+            android:layout_alignBottom="@id/card_price_text_view"
+            tools:text="X人收藏"
+            android:textSize="8sp"/>
+        <ImageView
+            android:id="@+id/card_photo_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_price_text_view"
+            tools:src="@drawable/ic_clean"
+            android:layout_marginTop="@dimen/card_child_margin"/>
+        <TextView
+            android:id="@+id/card_account_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_price_text_view"
+            android:layout_toRightOf="@id/card_photo_image_view"
+            android:layout_toEndOf="@id/card_photo_image_view"
+            android:layout_alignTop="@id/card_photo_image_view"
+            android:layout_alignBottom="@id/card_photo_image_view"
+            android:layout_marginLeft="@dimen/card_child_margin"
+            android:layout_marginStart="@dimen/card_child_margin"
+            tools:text="卖家账户名"
+            android:textSize="10sp"
+            android:textColor="@color/colorPrimary" />
+
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

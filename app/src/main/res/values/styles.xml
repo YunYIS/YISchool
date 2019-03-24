@@ -8,5 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimary</item>
     </style>
+    <style name="Splash_Theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@drawable/yis</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 
 </resources>

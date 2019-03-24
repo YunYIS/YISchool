@@ -60,11 +60,11 @@
                 android:id="@+id/slideshow_dot_linear"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:background="@color/slideshowDot"
                 app:layout_constraintBottom_toBottomOf="@id/slideshow_view_pager"
-                android:orientation="horizontal">
-
-            </LinearLayout>
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="15dp"
+                android:gravity="center_vertical|end"/>
 
             <customview.ImgTextButton
                 android:id="@+id/category_phone"
@@ -153,7 +153,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/category_vehicle"
                 app:layout_constraintTop_toBottomOf="@id/category_phone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/commodity_display_recycler_view"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -227,6 +227,16 @@
                 app:imageHeight="25dp"
                 app:imageMarginTop="6dp"
                 app:spacing="4dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commodity_display_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/category_household_appliances"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="15dp">
+
+            </android.support.v7.widget.RecyclerView>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
