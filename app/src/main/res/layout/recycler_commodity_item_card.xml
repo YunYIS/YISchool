@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="8dp"
+    android:layout_margin="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +13,9 @@
 
         <ImageView
             android:id="@+id/card_commodity_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
             tools:src="@drawable/ic_clean"/>
         <TextView
             android:id="@+id/card_title_text_view"
@@ -22,8 +24,13 @@
             android:layout_below="@+id/card_commodity_image_view"
             tools:text="标题"
             android:lines="2"
+            android:textStyle="bold"
             android:textColor="@color/colorPrimary"
-            android:layout_marginTop="@dimen/card_child_margin"/>
+            android:layout_marginTop="@dimen/card_child_margin_top"
+            android:layout_marginLeft="@dimen/card_child_margin_l_r"
+            android:layout_marginStart="@dimen/card_child_margin_l_r"
+            android:layout_marginRight="@dimen/card_child_margin_l_r"
+            android:layout_marginEnd="@dimen/card_child_margin_l_r"/>
         <TextView
             android:id="@+id/card_price_text_view"
             android:layout_width="wrap_content"
@@ -31,24 +38,33 @@
             android:layout_below="@id/card_title_text_view"
             tools:text="价格"
             android:textColor="#7E0000"
-            android:layout_marginTop="@dimen/card_child_margin"/>
+            android:layout_marginTop="@dimen/card_child_margin_top"
+            android:layout_marginLeft="@dimen/card_child_margin_l_r"
+            android:layout_marginStart="@dimen/card_child_margin_l_r"/>
         <TextView
             android:id="@+id/card_collect_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@id/card_title_text_view"
-            android:layout_alignTop="@id/card_price_text_view"
             android:layout_alignBottom="@id/card_price_text_view"
+            android:gravity="bottom"
             tools:text="X人收藏"
-            android:textSize="8sp"/>
+            android:textSize="10sp"
+            android:layout_marginRight="@dimen/card_child_margin_l_r"
+            android:layout_marginEnd="@dimen/card_child_margin_l_r"/>
         <ImageView
             android:id="@+id/card_photo_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_below="@id/card_price_text_view"
             tools:src="@drawable/ic_clean"
-            android:layout_marginTop="@dimen/card_child_margin"/>
+            android:scaleType="centerCrop"
+            android:layout_marginTop="@dimen/card_child_margin_top"
+            android:layout_marginLeft="@dimen/card_child_margin_l_r"
+            android:layout_marginStart="@dimen/card_child_margin_l_r"
+            android:layout_marginBottom="@dimen/card_child_margin_l_r"/>
         <TextView
             android:id="@+id/card_account_text_view"
             android:layout_width="match_parent"
@@ -57,11 +73,11 @@
             android:layout_toRightOf="@id/card_photo_image_view"
             android:layout_toEndOf="@id/card_photo_image_view"
             android:layout_alignTop="@id/card_photo_image_view"
-            android:layout_alignBottom="@id/card_photo_image_view"
-            android:layout_marginLeft="@dimen/card_child_margin"
-            android:layout_marginStart="@dimen/card_child_margin"
+            android:layout_marginLeft="@dimen/card_child_margin_l_r"
+            android:layout_marginStart="@dimen/card_child_margin_l_r"
+            android:layout_marginEnd="@dimen/card_child_margin_l_r"
             tools:text="卖家账户名"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textColor="@color/colorPrimary" />
 
 

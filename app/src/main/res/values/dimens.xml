@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="category_text_size">4sp</dimen>
-    <dimen name="card_child_margin">5dp</dimen>
+    <dimen name="card_child_margin_top">10dp</dimen>
+    <dimen name="card_child_margin_l_r">6dp</dimen>
 </resources>

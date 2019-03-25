@@ -34,18 +34,19 @@ public class SlideViewPagerHelper {
     private Handler handler;//发送轮播延时消息
     private List<String> imageUrls;//ViewPager图片数据源的Url（从网络加载图片，现在只是模拟）
     private List<ImageView> imageViews;//适配器初始化数据源
-    private int currPosition = 0;//记录当前轮播图片位置
+    private int currPosition;//记录当前轮播图片位置
     private Context context;
-    private LinearLayout indicatorDotLayoout;//指示器圆点线性布局
+    private LinearLayout indicatorDotLayout;//指示器圆点线性布局
 
     /**
      * 构造器初始化ViewPager和适配器（没有无参构造器，因为没有ViewPager和适配器这个工具类将毫无意义）
      * @param viewPager ViewPager实例
      */
-    public SlideViewPagerHelper(Context context, ViewPager viewPager, LinearLayout indicatorDotLayoout){
+    public SlideViewPagerHelper(Context context, ViewPager viewPager, LinearLayout indicatorDotLayout, int currPosition){
         this.viewPager = viewPager;
         this.context = context;
-        this.indicatorDotLayoout = indicatorDotLayoout;
+        this.indicatorDotLayout = indicatorDotLayout;
+        this.currPosition = currPosition;
         DOT_SIZE = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 5,context.getResources().getDisplayMetrics());//圆点默认大小
     }
@@ -94,9 +95,9 @@ public class SlideViewPagerHelper {
             view = new View(context);
             view.setLayoutParams(lp);
             view.setBackgroundResource(R.drawable.indicator_dot);
-            indicatorDotLayoout.addView(view);
+            indicatorDotLayout.addView(view);
         }
-        indicatorDotLayoout.getChildAt(currPosition).setSelected(true);//初始点选中
+        indicatorDotLayout.getChildAt(currPosition).setSelected(true);//初始点选中
     }
     /**
      * 初始化适配器，set适配器，并重写监听滑动事件 (实现定时轮播)(选择轮播小点)
@@ -140,7 +141,7 @@ public class SlideViewPagerHelper {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                viewPager.setCurrentItem(1, true);
+                viewPager.setCurrentItem(currPosition+1, true);
             }
         }, SLIDE_TIME);
     }
@@ -148,16 +149,16 @@ public class SlideViewPagerHelper {
      * 设置选中小点，并取消前一个小点的选中
      */
     public void selectedDot(){
-        int size = indicatorDotLayoout.getChildCount();
+        int size = indicatorDotLayout.getChildCount();
         int dotPosition = currPosition % size;//小圆点选中位置（因为使用MAX_COUNT实现的循环）
         int previousDotPosition = (currPosition-1)%size;//前一个小圆点位置(向右滑动)
         int afterDotPosition = (currPosition+1)%size;//后一个小点位置（向左滑动）
         if(previousDotPosition < 0){
             previousDotPosition = imageViews.size() + previousDotPosition;
         }
-        indicatorDotLayoout.getChildAt(afterDotPosition).setSelected(false);
-        indicatorDotLayoout.getChildAt(previousDotPosition).setSelected(false);
-        indicatorDotLayoout.getChildAt(dotPosition).setSelected(true);
+        indicatorDotLayout.getChildAt(afterDotPosition).setSelected(false);
+        indicatorDotLayout.getChildAt(previousDotPosition).setSelected(false);
+        indicatorDotLayout.getChildAt(dotPosition).setSelected(true);
     }
     /**
      * 启动轮播图
@@ -169,9 +170,18 @@ public class SlideViewPagerHelper {
         initListener();
     }
     /**
-     * 记得在onDestroy中停止轮播，以避免发生OOM
+     * 记得在onDestroyView中停止轮播，以避免发生OOM
      */
     public void stopSlideViewPager(){
         handler.removeCallbacksAndMessages(null);//清空消息队列，避免OOM
     }
+
+    /**
+     * 获取当前轮播位置（切换Fragment时会重置SlideViewpager）
+     * @return
+     */
+    public int getCurrPosition(){
+        return currPosition;
+    }
+
 }

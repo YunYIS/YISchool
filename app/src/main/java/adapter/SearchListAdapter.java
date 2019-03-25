@@ -34,14 +34,15 @@ public class SearchListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
+        String retStr = null;
         //访问集合position位置的元素
         Iterator<String> iterator = dataSet.iterator();
         for(int i = 0; i < position; i++){
-            if(iterator.hasNext()){
-                iterator.next();
-            }
+            iterator.next();
         }
-        String retStr = iterator.next();//可能nullP
+        if(iterator.hasNext()){
+            retStr = iterator.next();
+        }
         return retStr;
     }
 

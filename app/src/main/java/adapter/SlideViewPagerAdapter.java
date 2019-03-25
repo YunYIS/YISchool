@@ -1,13 +1,11 @@
 package adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -39,6 +37,10 @@ public class SlideViewPagerAdapter extends PagerAdapter {
         position %= imageViews.size();//在滑动到最后一张图片时，继续向同一方向滑动可以重复播放
         Log.d("SlideAdapter", "position % after " + position);
         ImageView imageView = imageViews.get(position);
+        ViewGroup parent = (ViewGroup) imageView.getParent();
+        if(parent != null){//避免IllegalStateException（由于切换Fragment引起的onCreateView调用）
+            parent.removeView(imageView);
+        }
         container.addView(imageView);
         return imageView;
     }

@@ -3,6 +3,7 @@ package adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.yischool.R;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import Bean.CommodityCardBean;
@@ -35,12 +37,36 @@ public class CommodityRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder)holder;
-//        viewHolder.cardCommodityImageView.setImageDrawable();
+        CommodityCardBean commodityCardBean = (CommodityCardBean) getElement(commodityCards, position);
+        viewHolder.cardCommodityImageView.setImageResource(Integer.valueOf(commodityCardBean.getCommodityImgUrl()));//只是模拟
+        viewHolder.cardTitleTextView.setText(commodityCardBean.getTitle());
+        viewHolder.cardPriceTextView.setText("￥"+String.valueOf(commodityCardBean.getPrice()));
+        viewHolder.cardPhotoImageView.setImageResource(Integer.valueOf(commodityCardBean.getAccountPhotoUrl()));
+        viewHolder.cardAccountTextView.setText(commodityCardBean.getAccountName());
+        viewHolder.cardCollectTextView.setText(commodityCardBean.getCollectNumber()+"人收藏");
     }
 
     @Override
     public int getItemCount() {
         return commodityCards.size();
+    }
+
+    /**
+     * 访问HashSet中position位置的元素
+     * @param set
+     * @param position
+     * @return
+     */
+    private Object getElement(HashSet set, int position){
+        Object retObj = null;
+        Iterator iterator = set.iterator();
+        for(int i = 0; i < position; i++){
+            iterator.next();
+        }
+        if(iterator.hasNext()){
+            retObj = iterator.next();
+        }
+        return retObj;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -62,4 +88,5 @@ public class CommodityRecyclerAdapter extends RecyclerView.Adapter {
             cardAccountTextView = itemView.findViewById(R.id.card_account_text_view);
         }
     }
+
 }
