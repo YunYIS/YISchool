@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="@drawable/login_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_white_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_head_image"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        android:layout_marginTop="60dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/white"
+        android:src="@drawable/default_head_portrait" />
+
+    <EditText
+        android:id="@+id/account_phone_edit_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/circle_head_image"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="@dimen/edit_margin_l_r"
+        android:layout_marginStart="@dimen/edit_margin_l_r"
+        android:layout_marginRight="@dimen/edit_margin_l_r"
+        android:layout_marginEnd="@dimen/edit_margin_l_r"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawableStart="@drawable/ic_person"
+        android:lines="1"
+        android:hint="用户名/手机号"
+        android:textSize="14sp"/>
+    <EditText
+        android:id="@+id/password_edit_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/account_phone_edit_view"
+        android:layout_marginTop="@dimen/edit_margin_top"
+        android:layout_marginLeft="@dimen/edit_margin_l_r"
+        android:layout_marginStart="@dimen/edit_margin_l_r"
+        android:layout_marginRight="@dimen/edit_margin_l_r"
+        android:layout_marginEnd="@dimen/edit_margin_l_r"
+        android:drawableLeft="@drawable/ic_password"
+        android:drawableStart="@drawable/ic_password"
+        android:lines="1"
+        android:longClickable="false"
+        android:textIsSelectable="false"
+        android:inputType="textPassword"
+        android:textSize="14sp"/>
+    <CheckBox
+        android:id="@+id/remember_password_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/password_edit_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="记住密码"
+        android:textSize="13sp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="@dimen/edit_margin_l_r"
+        android:layout_marginStart="@dimen/edit_margin_l_r"/>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/remember_password_checkbox"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/register_button"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/edit_margin_l_r"
+        android:layout_marginStart="@dimen/edit_margin_l_r"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="登 陆"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/login_button"
+        app:layout_constraintLeft_toRightOf="@id/login_button"
+        app:layout_constraintBottom_toBottomOf="@id/login_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/edit_margin_l_r"
+        android:layout_marginEnd="@dimen/edit_margin_l_r"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="注 册"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/forget_password_button"
+        android:layout_width="55dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="@dimen/edit_margin_l_r"
+        android:layout_marginEnd="@dimen/edit_margin_l_r"
+        android:background="@null"
+        android:gravity="center"
+        android:text="忘记密码"
+        android:textColor="#585858"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_button" />
+
+</android.support.constraint.ConstraintLayout>

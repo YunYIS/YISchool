@@ -97,7 +97,10 @@ public class SlideViewPagerHelper {
             view.setBackgroundResource(R.drawable.indicator_dot);
             indicatorDotLayout.addView(view);
         }
-        indicatorDotLayout.getChildAt(currPosition).setSelected(true);//初始点选中
+        View childView = indicatorDotLayout.getChildAt(currPosition);
+        if(childView != null){
+            childView.setSelected(true);//初始点选中
+        }
     }
     /**
      * 初始化适配器，set适配器，并重写监听滑动事件 (实现定时轮播)(选择轮播小点)

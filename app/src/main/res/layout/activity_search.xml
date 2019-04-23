@@ -8,7 +8,7 @@
         android:id="@+id/back_img_button"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:src="@drawable/ic_search_back"
+        android:src="@drawable/ic_black_back"
         android:scaleType="fitCenter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/search_edit_text"

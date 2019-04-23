@@ -1,4 +1,4 @@
-package com.example.yischool;
+package com.example.yischool.mainFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,13 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.yischool.R;
+
 
 public class PublishFragment extends Fragment {
 
-    private static PublishFragment fragment = new PublishFragment();
+    private static PublishFragment publishFragment;
 
     public static PublishFragment newInstance() {
-        return fragment;
+        if(publishFragment == null){
+            publishFragment = new PublishFragment();
+        }
+        return publishFragment;
     }
 
     @Override

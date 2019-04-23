@@ -16,7 +16,6 @@ import com.example.yischool.R;
 public class EditTextView extends AppCompatEditText {
 
     public boolean IS_IC_CLEAN_VISIBLE = false;//清除图标是否已显示。已显示：true; 未显示：false;
-
     private Drawable clearDrawable;//清除图标ic_clean.xml
 
     public EditTextView(Context context) {

@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -9,10 +8,22 @@
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimary</item>
     </style>
     <style name="Splash_Theme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:background">@drawable/yis</item>
+        <item name="android:background">@drawable/yis_start_background</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
     </style>
-
+    
+    <style name="WhiteEditViewStyle">
+        <!--控件默认颜色-->
+        <item name="android:colorControlNormal" tools:ignore="NewApi">#ffffff</item>
+        <!--控件被激活时颜色-->
+        <item name="android:colorControlActivated" tools:ignore="NewApi">#ffffff</item>
+    </style>
+    <style name="DateDialogTheme" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

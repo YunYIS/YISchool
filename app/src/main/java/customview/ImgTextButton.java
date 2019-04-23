@@ -34,7 +34,6 @@ public class ImgTextButton extends LinearLayout {
     private String text;//文字内容
     private float textSize;//文字大小
     private int textColor;//文字颜色
-    private int textColorPress;//文字按下时的颜色
     private int imageDrawable;//imageView的src
     private float imageWidth;//imageView宽度
     private float imageHeight;//imageView高度
@@ -88,8 +87,7 @@ public class ImgTextButton extends LinearLayout {
         //上面将sp值转换成px
         Log.d("imgText sp-px:",""+TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 4,context.getResources().getDisplayMetrics()));
         textColor = typedArray.getColor(R.styleable.ImgTextButton_textColor, Color.rgb(30, 30, 30));
-        textColorPress = typedArray.getColor(R.styleable.ImgTextButton_textColorPress, Color.BLACK);
-        imageDrawable = typedArray.getResourceId(R.styleable.ImgTextButton_imageDrawable, R.drawable.ic_launcher_foreground);
+        imageDrawable = typedArray.getResourceId(R.styleable.ImgTextButton_imageDrawable, R.drawable.default_head_portrait);
         imageWidth = typedArray.getDimension(R.styleable.ImgTextButton_imageWidth,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,context.getResources().getDisplayMetrics()));
         imageHeight = typedArray.getDimension(R.styleable.ImgTextButton_imageHeight,
@@ -160,21 +158,28 @@ public class ImgTextButton extends LinearLayout {
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     isActionDown = true;//从该控件按下
+                    setPressed(true);
                     Log.d("ImgTextButton", "action_DOWN isActionDown " + isActionDown);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if(event.getX() <= 0 || event.getX() >= getWidth() || event.getY() <= 0 || event.getY() >= getHeight()){
                         isActionDown = false;//连续滑动的过程中，离开控件范围（本次点击作废）
-                        Log.d("ImgTextButton", "action_MOVE isActionDown " + isActionDown);
+                        Log.d("ImgTextButton", "action_MOVE isActionDown if inside " + isActionDown);
                     }
                     Log.d("ImgTextButton", "action_MOVE isActionDown " + isActionDown);
+                    break;
+                case MotionEvent.ACTION_CANCEL://前驱事件被父控件拦截（NestedScrollView）
+                    setPressed(false);
+                    isActionDown = false;//上下滑动会被父控件拦截（ACTION_MOVE判断失效）
+                    Log.d("ImgTextButton", "action_CANCEL isActionDown " + isActionDown);
                     break;
                 case MotionEvent.ACTION_UP:
                     if(isActionDown && listener != null){//点击条件达成，并注册了点击监听事件，执行点击事件方法
                         listener.onImgTextClick(this);
-                        Log.d("ImgTextButton", "action_UP isActionDown " + isActionDown);
+                        Log.d("ImgTextButton", "action_UP isActionDown if inside " + isActionDown);
                     }
                     Log.d("ImgTextButton", "action_UP isActionDown " + isActionDown);
+                    setPressed(false);
                     break;
                 default:break;
             }
@@ -193,9 +198,6 @@ public class ImgTextButton extends LinearLayout {
         imageDrawable = ResourceId;
         imageView.setImageResource(ResourceId);
         return this;
-    }
-    public void setTextPressColor(){
-        textView.setTextColor(textColorPress);
     }
     public ImgTextButton setIsTouch(boolean flag){
         isTouch = flag;

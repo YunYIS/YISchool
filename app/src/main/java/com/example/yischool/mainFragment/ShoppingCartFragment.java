@@ -1,4 +1,4 @@
-package com.example.yischool;
+package com.example.yischool.mainFragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.yischool.R;
+
 public class ShoppingCartFragment extends Fragment {
 
     private static ShoppingCartFragment shoppingCartFragment = new ShoppingCartFragment();
 
     public static ShoppingCartFragment newInstance(){
+        if(shoppingCartFragment == null){
+            shoppingCartFragment = new ShoppingCartFragment();
+        }
         return shoppingCartFragment;
     }
     @Nullable

@@ -1,4 +1,4 @@
-package com.example.yischool;
+package com.example.yischool.mainFragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.yischool.R;
+
 public class PersonalFragment extends Fragment {
 
-    private static PersonalFragment personalFragment = new PersonalFragment();
+    private static PersonalFragment personalFragment;
 
     public static PersonalFragment newInstance(){
+        if(personalFragment == null){
+            personalFragment = new PersonalFragment();
+        }
         return personalFragment;
     }
     @Nullable

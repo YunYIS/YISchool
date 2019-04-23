@@ -6,10 +6,4 @@
     android:layout_height="match_parent"
     tools:context=".SearchResultActivity">
 
-    <TextView
-        android:text="搜索结果界面"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </android.support.constraint.ConstraintLayout>

@@ -74,7 +74,8 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                 editTextView.setSelection(historyContentStr.length());
                 Intent startSearchResultActivity = new Intent(SearchActivity.this, SearchResultActivity.class);
                 startSearchResultActivity.putExtra(SEARCH_CONTENT, historyContentStr);
-                startActivity(startSearchResultActivity);
+                startActivity(startSearchResultActivity);//直接通过历史记录开始搜索
+                finish();
             }
         });
     }
@@ -96,8 +97,8 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                     Intent startSearchResultActivity = new Intent(this, SearchResultActivity.class);
                     startSearchResultActivity.putExtra(SEARCH_CONTENT, editContent);
                     startActivity(startSearchResultActivity);//跳转搜索结果界面
+                    finish();//结束活动
                     historyData.add(editContent);//由于是HashSet类型，所以数据不会重复
-                    adapter.notifyDataSetChanged();
                 }
                 break;
             default:break;

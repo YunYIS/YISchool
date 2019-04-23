@@ -1,4 +1,4 @@
-package com.example.yischool;
+package com.example.yischool.mainFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.example.yischool.R;
+import com.example.yischool.SearchActivity;
+import com.example.yischool.SpecificCategoryActivity;
 
 import ViewHelper.CommodityRecyclerHelper;
 import ViewHelper.SlideViewPagerHelper;
