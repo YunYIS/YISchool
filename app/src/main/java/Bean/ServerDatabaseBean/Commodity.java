@@ -3,7 +3,7 @@ package Bean.ServerDatabaseBean;
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * @author 张云天
@@ -16,12 +16,14 @@ public class Commodity extends BmobObject {
     private String title;//商品标题
     private User publishUser;//发布商品的用户
     private AddressDetail publishPosition;//发布位置（卖家位置）
-    private String category;//分类（由于详情页之后的推荐列表
+    private Category category;//商品类别（由于详情页之后的推荐列表）
     private String detail;//商品详情描述
     private Double price;//价格
     private boolean isSoldOut;//是否已售完（默认否）
     private boolean isCancelSale;//是否下架（即取消商品销售，用户自己取消，也可由管理员下架）
-    private List<String> pictureAndVideo;//关于商品的所有图片和视频信息
+    private List<BmobFile> pictureAndVideo;//关于商品的所有图片和视频信息（保存为File，因为不需要重复利用图片）
+    private String brand;//品牌
+    private int meansOfExchange;//交易方式
 
     public String getTitle() {
         return title;
@@ -35,7 +37,7 @@ public class Commodity extends BmobObject {
         return publishPosition;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -55,8 +57,26 @@ public class Commodity extends BmobObject {
         return isCancelSale;
     }
 
-    public List<String> getPictureAndVideo() {
+    public List<BmobFile> getPictureAndVideo() {
         return pictureAndVideo;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public int getMeansOfExchange() {
+        return meansOfExchange;
+    }
+
+    public Commodity setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public Commodity setMeansOfExchange(int meansOfExchange) {
+        this.meansOfExchange = meansOfExchange;
+        return this;
     }
 
     public Commodity setTitle(String title) {
@@ -74,7 +94,7 @@ public class Commodity extends BmobObject {
         return this;
     }
 
-    public Commodity setCategory(String category) {
+    public Commodity setCategory(Category category) {
         this.category = category;
         return this;
     }
@@ -99,7 +119,7 @@ public class Commodity extends BmobObject {
         return this;
     }
 
-    public Commodity setPictureAndVideo(List<String> pictureAndVideo) {
+    public Commodity setPictureAndVideo(List<BmobFile> pictureAndVideo) {
         this.pictureAndVideo = pictureAndVideo;
         return this;
     }

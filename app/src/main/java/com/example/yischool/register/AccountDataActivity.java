@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -22,10 +21,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yischool.InitApplication;
 import com.example.yischool.MainActivity;
@@ -37,15 +34,13 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import Bean.ServerDatabaseBean.User;
-import Bean.citySchools.CityBean;
-import Bean.citySchools.SchoolBean;
+import Bean.jsonBean.CityBean;
+import Bean.jsonBean.SchoolBean;
 import Utils.JSONUtils;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
@@ -55,6 +50,11 @@ import customview.EditSpinner;
 import static Utils.ToastUtils.toastMessage;
 import static com.example.yischool.InitApplication.getAppContext;
 
+/**
+ * @author 张云天
+ * date on 2019/4/23
+ * describe: 注册流程第二个页面，必填项（三个）和选填信息，功能逻辑
+ */
 public class AccountDataActivity extends AppCompatActivity {
 
     public static final String TAG = "AccountDataActivity";

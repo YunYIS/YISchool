@@ -1,4 +1,4 @@
-package Bean.citySchools;
+package Bean.jsonBean;
 
 /**
  * @author 张云天

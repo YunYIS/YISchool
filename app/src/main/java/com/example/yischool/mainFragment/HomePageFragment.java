@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.yischool.AllCategoryActivity;
 import com.example.yischool.R;
 import com.example.yischool.SearchActivity;
 import com.example.yischool.SpecificCategoryActivity;
@@ -153,6 +154,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.category_all:
                 //@TODO 所有类别不能共用一个模版Activity
+                startSpecCategoryActivity = new Intent(getContext(), AllCategoryActivity.class);
                 break;
             default:break;
         }

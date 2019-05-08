@@ -1,11 +1,8 @@
-package Bean;
-
-import android.util.Log;
+package Bean.jsonBean;
 
 import org.litepal.annotation.Column;
 
 import java.math.BigDecimal;
-import java.util.zip.CRC32;
 
 /**
  * @author 张云天

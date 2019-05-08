@@ -27,6 +27,11 @@ import cn.bmob.v3.listener.UpdateListener;
 
 import static Utils.ToastUtils.toastMessage;
 
+/**
+ * @author 张云天
+ * date on 2019/4/23
+ * describe: 忘记密码页面功能逻辑
+ */
 public class ForgetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String LOG_TAG = "ForgetPasswordActivity";
@@ -59,7 +64,8 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
 
         backButton.setOnClickListener(this);
         displayPasswordImageButton.setOnClickListener(this);
-
+        getCodeButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
     }
 
     @Override
@@ -67,6 +73,12 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
         switch (v.getId()){
             case R.id.back_button:
                 finish();
+                break;
+            case R.id.get_code_button:
+                phoneNumber = getAndCheckPhoneNumber();
+                if(phoneNumber != null){//不为空，则说明手机号格式正确
+                    sendVerifyCode(phoneNumber);
+                }
                 break;
             case R.id.display_password_image_button:
                 if(passwordEditView.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){

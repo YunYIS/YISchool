@@ -48,7 +48,13 @@
             android:authorities="com.example.yischool.BmobContentProvider" />
 
         <activity android:name=".register.AccountDataActivity" />
-        <activity android:name=".register.ForgetPasswordActivity"></activity>
+        <activity android:name=".register.ForgetPasswordActivity" />
+        <activity android:name=".AllCategoryActivity" />
+
+        <service
+            android:name="service.AllCategoryService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

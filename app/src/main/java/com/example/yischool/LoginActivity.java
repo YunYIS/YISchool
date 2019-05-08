@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         backButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
-
+        forgetPasswordButton.setOnClickListener(this);
     }
 
     @SuppressLint("RestrictedApi")

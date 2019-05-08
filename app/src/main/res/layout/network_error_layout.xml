@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--没有网络时，加载出错提示界面-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/no_network_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_no_network"
+        android:layout_centerInParent="true" />
+    <TextView
+        android:id="@+id/no_network_text_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/no_network_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/edit_margin_top"
+        android:text="加载失败，点击重新加载"/>
+
+</RelativeLayout>

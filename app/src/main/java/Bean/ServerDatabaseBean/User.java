@@ -18,6 +18,7 @@ public class User extends BmobUser implements Serializable {
     private BmobFile headPortrait;//用户头像
     private String sex;//性别
     private BmobDate birthday;//用户生日
+    private String school;//所属学校
     private String major;//主修专业
     private String college;//所属学院
     private String theSignature;//个性签名

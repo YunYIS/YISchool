@@ -1,4 +1,4 @@
-package Bean.citySchools;
+package Bean.jsonBean;
 
 import java.util.List;
 

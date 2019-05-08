@@ -8,7 +8,7 @@ import com.example.yischool.R;
 
 import java.util.HashSet;
 
-import Bean.CommodityCardBean;
+import Bean.jsonBean.CommodityCardBean;
 import adapter.CommodityRecyclerAdapter;
 
 public class CommodityRecyclerHelper {

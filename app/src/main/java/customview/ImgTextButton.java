@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.*;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yischool.R;
@@ -41,7 +43,13 @@ public class ImgTextButton extends LinearLayout {
     private int imageScaleType;//scr图片的放缩类型、模式
     private int spacing;//上方图片与下方文字的间距
     private Drawable background;//背景图，支持透明（null）
-    private static final ScaleType[] mScaleTypeArray = {//imageScaleType属性值
+    private LinearLayout.LayoutParams imageLayoutParams;//图片布局参数
+    /**
+     * (必须使用同一个LayoutParams对象，因为ImgTextButton有三处可以修改布局参数，如果不是同一个对象，
+     *   而是去新建一个LayoutParams对象，再set进去，那么以前做的设置就被重置了)
+     */
+    private LinearLayout.LayoutParams textLayoutParams;//文字布局参数
+    public static final ScaleType[] mScaleTypeArray = {//imageScaleType属性值
             ScaleType.FIT_START,
             ScaleType.FIT_CENTER,
             ScaleType.FIT_END,
@@ -118,16 +126,16 @@ public class ImgTextButton extends LinearLayout {
         imageView.setBackground(background);
         //设置显示风格（可以在不许要布局文件属性控制的情况下，设置子控件如何放置）（适合自定义tab键）
         this.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.CENTER_HORIZONTAL;
-        lp.width = (int)imageWidth;//设置imageView宽度
-        lp.height = (int)imageHeight;//imageView高度
-        lp.topMargin = (int)imageMarginTop;//设置imageView与父布局的上间距
-        imageView.setLayoutParams(lp);
-        lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        lp.topMargin = spacing;////设置文字与图标的上下间距
-        lp.gravity = Gravity.CENTER_HORIZONTAL;
-        textView.setLayoutParams(lp);
+        imageLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        imageLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        imageLayoutParams.width = (int)imageWidth;//设置imageView宽度
+        imageLayoutParams.height = (int)imageHeight;//imageView高度
+        imageLayoutParams.topMargin = (int)imageMarginTop;//设置imageView与父布局的上间距
+        imageView.setLayoutParams(imageLayoutParams);
+        textLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        textLayoutParams.topMargin = spacing;////设置文字与图标的上下间距
+        textLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        textView.setLayoutParams(textLayoutParams);
     }
     /**
      * 设置实现了点击事件接口的子类对象
@@ -189,18 +197,98 @@ public class ImgTextButton extends LinearLayout {
         }
     }
 
+    /**
+     * 设置文字
+     * @param text
+     * @return
+     */
     public ImgTextButton setText(String text){
         this.text = text;
         textView.setText(text);
         return this;
     }
+    /**
+     * 设置ImageView的资源图片
+     * @param ResourceId
+     */
     public ImgTextButton setImage(int ResourceId){
         imageDrawable = ResourceId;
         imageView.setImageResource(ResourceId);
         return this;
     }
+
+    /**
+     * 设置ImageView的资源图片
+     * @param drawable
+     */
+    public void setImage(Drawable drawable){
+        imageView.setImageDrawable(drawable);
+    }
+
+    /**
+     * 设置ImgTextButton是否可点击
+     * @param flag
+     * @return
+     */
     public ImgTextButton setIsTouch(boolean flag){
         isTouch = flag;
         return this;
+    }
+    /**
+     * 设置图片显示缩放方式
+     * @param imageScaleType
+     */
+    public void setImageScaleType(ScaleType imageScaleType){
+        imageView.setScaleType(imageScaleType);
+    }
+    /**
+     * 设置图宽，高
+     * @param wh w == h 正方形
+     */
+    public void setImageWH(int wh){
+        imageLayoutParams.width = wh;//设置imageView宽度
+        imageLayoutParams.height = wh;//imageView高度
+        imageView.setLayoutParams(imageLayoutParams);
+    }
+
+    /**
+     * 设置图片四面间距
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    public void setImageMargins(int left, int top, int right, int bottom){
+        imageLayoutParams.setMargins(left, top, right, bottom);
+        imageView.setLayoutParams(imageLayoutParams);
+    }
+
+    /**
+     * 设置文字大小
+     * @param size
+     */
+    public void setTextSize(int size){
+        textView.setTextSize(size);
+    }
+
+    /**
+     * 设置文字颜色
+     * @param color
+     */
+    public void setTextColor(int color){
+        textView.setTextColor(color);
+    }
+
+    /**
+     * 设置文字四面间距
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    public void setTextTopMargin(int left, int top, int right, int bottom){
+
+        textLayoutParams.setMargins(left, top, right, bottom);
+        textView.setLayoutParams(textLayoutParams);
     }
 }
