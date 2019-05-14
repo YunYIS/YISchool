@@ -30,11 +30,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.CustomViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -50,6 +46,8 @@ import service.AllCategoryService;
  * @author 张云天
  * date on 2019/4/30
  * describe: 所有分类展示页
+ * bug：在网络不好时，上一个大类别，未加载好，又点击了，另一个大类别，该大类别加载好了之后，上一个大类别加载成功，
+ * 此时myBinder的categories就会更新，导致加载内容不符
  */
 public class AllCategoryActivity extends AppCompatActivity {
 
@@ -230,7 +228,7 @@ public class AllCategoryActivity extends AppCompatActivity {
                 TextView titleTextView = new TextView(activity);
                 titleTextView.setText(secondaryCategory);//设置小类别标题内容
                 titleTextView.setTextColor(Color.BLACK);
-                titleTextView.setBackgroundResource(R.drawable.all_category_title_background);//设置标题背景（View下划线）
+                titleTextView.setBackgroundResource(R.drawable.underline_background);//设置标题背景（View下划线）
                 LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 textLayoutParams.setMargins(50, 50, 50,50);
@@ -263,7 +261,7 @@ public class AllCategoryActivity extends AppCompatActivity {
                         titleTextView = new TextView(activity);
                         titleTextView.setText(secondaryCategory);//设置小类别标题内容
                         titleTextView.setTextColor(Color.BLACK);
-                        titleTextView.setBackgroundResource(R.drawable.all_category_title_background);//设置标题背景（View下划线）
+                        titleTextView.setBackgroundResource(R.drawable.underline_background);//设置标题背景（View下划线）
                         titleTextView.setLayoutParams(textLayoutParams);
                         activity.particularCategoryLayout.addView(titleTextView);
                     }

@@ -286,7 +286,7 @@ public class ImgTextButton extends LinearLayout {
      * @param right
      * @param bottom
      */
-    public void setTextTopMargin(int left, int top, int right, int bottom){
+    public void setTextMargin(int left, int top, int right, int bottom){
 
         textLayoutParams.setMargins(left, top, right, bottom);
         textView.setLayoutParams(textLayoutParams);

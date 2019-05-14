@@ -2,6 +2,7 @@ package com.example.yischool.register;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,6 +106,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if(phoneNumber != null && password != null && verifyCode != null){//不为空，则说明三个输入数据格式都正确
                     checkAndSave(phoneNumber, verifyCode, password);
                     if(user != null){//验证成功，则跳转下个活动继续完善用户信息
+                        //临时保存用户信息
+                        SharedPreferences sharedPreferences = getSharedPreferences("LoginUserData", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("mobilePhone", user.getMobilePhoneNumber());
+                        editor.putString("password", password);
+                        editor.apply();
+                        //跳转
                         Intent intent = new Intent(RegisterActivity.this, AccountDataActivity.class);
                         intent.putExtra("temp_user", user);//将该活动页面的用户信息传递到下一个活动
                         startActivity(intent);

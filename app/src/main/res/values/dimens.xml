@@ -6,4 +6,5 @@
     <dimen name="edit_margin_l_r">45dp</dimen>
     <dimen name="edit_margin_top">22dp</dimen>
     <dimen name="hint_icon_size">12dp</dimen>
+    <dimen name="normal_text_size">14sp</dimen>
 </resources>

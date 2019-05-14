@@ -43,7 +43,7 @@
         android:layout_marginEnd="@dimen/edit_margin_l_r"
         android:hint="手机号"
         android:lines="1"
-        android:textSize="14sp"
+        android:textSize="@dimen/normal_text_size"
         android:inputType="number"
         android:maxLength="11" />
 
@@ -54,7 +54,7 @@
         android:hint="密码"
         android:inputType="textPassword"
         android:lines="1"
-        android:textSize="14sp"
+        android:textSize="@dimen/normal_text_size"
         android:maxLength="15"
         android:layout_marginTop="@dimen/edit_margin_top"
         app:layout_constraintLeft_toLeftOf="@id/telephone_edit_view"
@@ -88,7 +88,7 @@
         android:inputType="number"
         android:lines="1"
         android:maxLength="6"
-        android:textSize="14sp"/>
+        android:textSize="@dimen/normal_text_size"/>
 
     <Button
         android:id="@+id/get_code_button"

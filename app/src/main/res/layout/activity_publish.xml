@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/underline_background"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_black_back" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发 布"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="140dp" />
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <android.support.constraint.ConstraintLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="标题 :  "
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/title_edit_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/title_edit_text"
+                app:layout_constraintTop_toTopOf="@id/title_edit_text" />
+
+            <EditText
+                android:id="@+id/title_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="-5dp"
+                android:layout_marginRight="-5dp"
+                android:hint="（类型、品牌、型号都是买家喜欢搜索的）"
+                android:lines="2"
+                android:maxLength="35"
+                android:textSize="@dimen/normal_text_size"
+                app:layout_constraintBottom_toTopOf="@id/content_text_view"
+                app:layout_constraintLeft_toRightOf="@id/title_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/content_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="商品详情 :"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toTopOf="@id/title_edit_text"
+                app:layout_constraintTop_toBottomOf="@id/title_edit_text" />
+
+            <EditText
+                android:id="@+id/content_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="商品详细信息（描述商品转手原因、入手渠道和使用感受等信息）"
+                android:lines="6"
+                android:textSize="@dimen/normal_text_size"
+                app:layout_constraintBottom_toTopOf="@id/picture_grid_view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/content_text_view" />
+
+            <TableLayout
+                android:id="@+id/picture_grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toTopOf="@id/price_edit_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/content_edit_text" />
+
+            <TextView
+                android:id="@+id/price_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="价格 :  "
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/price_edit_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/price_edit_text"
+                app:layout_constraintTop_toTopOf="@id/price_edit_text" />
+
+            <EditText
+                android:id="@+id/price_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="@dimen/normal_text_size"
+                app:layout_constraintLeft_toRightOf="@id/price_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/picture_grid_view" />
+
+            <TextView
+                android:id="@+id/category_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="分类 :  "
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/category_edit_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/category_edit_text"
+                app:layout_constraintTop_toTopOf="@id/category_edit_text" />
+
+            <EditText
+                android:id="@+id/category_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:focusable="false"
+                android:lines="1"
+                android:textSize="@dimen/normal_text_size"
+                app:layout_constraintBottom_toTopOf="@id/brand_edit_text"
+                app:layout_constraintLeft_toRightOf="@id/price_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/price_edit_text" />
+
+            <TextView
+                android:id="@+id/brand_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="品牌 :  "
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/brand_edit_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/brand_edit_text"
+                app:layout_constraintTop_toTopOf="@id/brand_edit_text" />
+
+            <EditText
+                android:id="@+id/brand_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lines="1"
+                android:textSize="@dimen/normal_text_size"
+                app:layout_constraintBottom_toTopOf="@id/location_text_view"
+                app:layout_constraintLeft_toRightOf="@id/brand_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/category_edit_text" />
+
+            <View
+                android:id="@+id/icon_location"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/ic_location"
+                app:layout_constraintBottom_toBottomOf="@id/location_text_view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/location_text_view"
+                app:layout_constraintTop_toTopOf="@id/location_text_view" />
+
+            <TextView
+                android:id="@+id/location_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="25dp"
+                android:gravity="center_vertical"
+                android:text="定位"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintLeft_toRightOf="@id/icon_location"
+                app:layout_constraintTop_toBottomOf="@id/brand_edit_text" />
+
+            <TextView
+                android:id="@+id/means_of_change_text"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="交易方式"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/mail_check"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/mail_check" />
+            <CheckBox
+                android:id="@+id/take_check"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="自提"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/mail_check"
+                app:layout_constraintRight_toLeftOf="@id/face_check"
+                app:layout_constraintTop_toTopOf="@id/mail_check"/>
+            <CheckBox
+                android:id="@+id/face_check"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="当面交易"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/mail_check"
+                app:layout_constraintRight_toLeftOf="@id/mail_check"
+                app:layout_constraintTop_toTopOf="@id/mail_check"/>
+            <CheckBox
+                android:id="@+id/mail_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邮寄"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_text_view"
+                android:layout_marginTop="20dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/complete_publish_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="确认发布" />
+</LinearLayout>

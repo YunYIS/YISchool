@@ -20,10 +20,35 @@
         <!--控件被激活时颜色-->
         <item name="android:colorControlActivated" tools:ignore="NewApi">#ffffff</item>
     </style>
+
+    <!--日期选择器样式-->
     <style name="DateDialogTheme" parent="android:Theme.Material.Dialog.Alert">
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--图片选择器自定义样式-->
+    <style name="CustomMatissesStyle" parent="Matisse.Dracula">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="album.dropdown.title.color">@color/white</item>
+        <item name="album.dropdown.count.color">@color/white</item>
+        <item name="album.element.color">@android:color/white</item>
+        <item name="album.thumbnail.placeholder">@color/colorPrimary</item>
+        <item name="album.emptyView.textColor">@color/dracula_album_empty_view</item>
+        <item name="item.placeholder">@color/colorPrimary</item>
+        <item name="item.checkCircle.backgroundColor">@color/dracula_item_checkCircle_backgroundColor</item>
+        <item name="page.bg">#DADADA</item>
+        <item name="bottomToolbar.bg">@color/colorPrimary</item>
+        <item name="bottomToolbar.apply.textColor">@color/white</item>
+        <item name="preview.bottomToolbar.apply.textColor">@color/white</item>
+        <item name="android:listPopupWindowStyle">@style/Popup.CustomMatissesStyle</item>
+        <item name="listPopupWindowStyle">@style/Popup.CustomMatissesStyle</item>
+    </style>
+    <!--图片选择器弹出ListView样式-->
+    <style name="Popup.CustomMatissesStyle" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupBackground">@color/colorPrimary</item>
     </style>
 </resources>

@@ -10,9 +10,9 @@ import android.util.Log;
 import com.example.yischool.mainFragment.CommunicativeFragment;
 import com.example.yischool.mainFragment.HomePageFragment;
 import com.example.yischool.mainFragment.PersonalFragment;
-import com.example.yischool.mainFragment.PublishFragment;
 import com.example.yischool.mainFragment.ShoppingCartFragment;
 import com.example.yischool.mainFragment.LoginHintFragment;
+import com.example.yischool.publish.PublishActivity;
 
 import customview.ImgTextButton;
 
@@ -35,9 +35,12 @@ public class MainActivity extends AppCompatActivity{
     protected void onStart() {
         super.onStart();
         if(InitApplication.getCurrentUser() != null){
-            //没有选择则返回-1
-            fragment = fragments[tabLayout.getSelectedTabPosition()==-1 ? 0 : tabLayout.getSelectedTabPosition()];
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+            //tabLayout没有选择时，则返回-1
+            int index = tabLayout.getSelectedTabPosition()==-1 ? 0 : tabLayout.getSelectedTabPosition();
+            if(index != 2){
+                fragment = fragments[index];
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+            }
         }
     }
     /**
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
         fragments = new Fragment[5];
         fragments[0] = HomePageFragment.newInstance();
         fragments[1] = CommunicativeFragment.newInstance();
-        fragments[2] = PublishFragment.newInstance();
+        fragments[2] = null;
         fragments[3] = ShoppingCartFragment.newInstance();
         fragments[4] = PersonalFragment.newInstance();
         //监听事件
@@ -73,8 +76,12 @@ public class MainActivity extends AppCompatActivity{
                     case 0:
                         fragment = fragments[0];//首页（不需要登陆）
                         break;
-                    case 1:
                     case 2:
+                        Intent intent = new Intent(MainActivity.this, PublishActivity.class);
+                        startActivity(intent);
+
+                        break;
+                    case 1:
                     case 3:
                     case 4:
                         if(InitApplication.getCurrentUser() == null){//当前没有用户登陆
@@ -94,5 +101,11 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "onDestroy()");
     }
 }

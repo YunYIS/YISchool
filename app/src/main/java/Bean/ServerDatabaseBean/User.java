@@ -31,6 +31,14 @@ public class User extends BmobUser implements Serializable {
         return headPortrait;
     }
 
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
     public User setHeadPortrait(BmobFile headPortrait) {
         this.headPortrait = headPortrait;
         return this;

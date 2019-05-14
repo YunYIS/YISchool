@@ -17,13 +17,14 @@ import android.widget.ImageView;
 import com.example.yischool.register.ForgetPasswordActivity;
 import com.example.yischool.register.RegisterActivity;
 
+import org.raphets.roundimageview.RoundImageView;
+
 import java.util.regex.Pattern;
 
 import Bean.ServerDatabaseBean.User;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static Utils.ToastUtils.toastMessage;
 
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public final Context CONTEXT = LoginActivity.this;
 
     private ImageView backButton;
-    private CircleImageView circleHeadImage;
+    private RoundImageView circleHeadImage;
     private EditText accountEditView;
     private EditText passwordEditView;
     private CheckBox rememberPasswordCheckbox;
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (e == null) {
                                 successLogin(user, password);
                             } else {
-                                toastMessage(CONTEXT, "登录失败");
+                                toastMessage(CONTEXT, "登录失败,用户名或密码错误");
                             }
                         }
                     }
@@ -114,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 if (e == null) {
                                     successLogin(user, password);
                                 } else {
-                                    toastMessage(CONTEXT, "登录失败");
+                                    toastMessage(CONTEXT, "登录失败,用户名或密码错误");
                                 }
                             }
                         }
@@ -130,7 +131,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         toastMessage(CONTEXT, "登录成功");
         InitApplication.setCurrentUser(user);//当前登录用户
         Boolean isRememberPassword = rememberPasswordCheckbox.isChecked();//是否记住密码
-        SharedPreferences sharedPreferences = CONTEXT.getSharedPreferences("LoginUserData", MODE_PRIVATE);
+        //保存用户信息,下次进入自动登陆（所以只本地保存（用户名，密码，手机号，以及记住密码等基本数据））
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginUserData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userName", user.getUsername());
         editor.putString("mobilePhone", user.getMobilePhoneNumber());

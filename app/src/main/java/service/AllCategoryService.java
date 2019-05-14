@@ -8,22 +8,14 @@ import android.os.Message;
 import android.util.Log;
 
 import com.example.yischool.AllCategoryActivity;
-import com.example.yischool.InitApplication;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import Bean.ServerDatabaseBean.Category;
-import Bean.ServerDatabaseBean.Commodity;
-import Bean.ServerDatabaseBean.browsingHistory;
+
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 
 public class AllCategoryService extends Service {
 

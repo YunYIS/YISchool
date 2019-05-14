@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -254,6 +255,11 @@ public class AccountDataActivity extends AppCompatActivity {
                                     if(e == null){
                                         InitApplication.setCurrentUser(user);//设置全局变量当前登陆用户
                                         toastMessage(CONTEXT, "注册成功！");
+                                        //保存用户信息,下次进入自动登陆（所以只本地保存（用户名，密码，手机号三个基本数据））
+                                        SharedPreferences sharedPreferences = getSharedPreferences("LoginUserData", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("userName", user.getUsername());
+                                        editor.apply();
                                         Intent completeIntent = new Intent(CONTEXT, MainActivity.class);
                                         startActivity(completeIntent);
                                     }else{

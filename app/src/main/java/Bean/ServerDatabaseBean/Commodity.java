@@ -12,6 +12,11 @@ import cn.bmob.v3.datatype.BmobFile;
  */
 public class Commodity extends BmobObject {
 
+    //交易方式
+    public static final transient int MEANS_EXCHANGE_TAKE = 1;//自提
+    public static final transient int MEANS_EXCHANGE_FACE = 2;//当面交易
+    public static final transient int MEANS_EXCHANGE_MAIL = 4;//邮寄
+
     //objectId(唯一标识)，注册时间等属性已由BmobObject继承
     private String title;//商品标题
     private User publishUser;//发布商品的用户
