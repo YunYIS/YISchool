@@ -7,12 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import Bean.ServerDatabaseBean.User;
+import com.example.yischool.Bean.ServerDatabaseBean.User;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
-
-import static Utils.ToastUtils.toastMessage;
 
 public class SplashActivity extends AppCompatActivity {
 

@@ -21,12 +21,12 @@ import org.raphets.roundimageview.RoundImageView;
 
 import java.util.regex.Pattern;
 
-import Bean.ServerDatabaseBean.User;
+import com.example.yischool.Bean.ServerDatabaseBean.User;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 
-import static Utils.ToastUtils.toastMessage;
+import static com.example.yischool.Utils.ToastUtils.toastMessage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 

@@ -39,16 +39,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import Bean.ServerDatabaseBean.User;
-import Bean.jsonBean.CityBean;
-import Bean.jsonBean.SchoolBean;
-import Utils.JSONUtils;
+import com.example.yischool.Bean.ServerDatabaseBean.User;
+import com.example.yischool.Bean.jsonBean.CityBean;
+import com.example.yischool.Bean.jsonBean.SchoolBean;
+import com.example.yischool.Utils.JSONUtils;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import customview.EditSpinner;
+import com.example.yischool.customview.EditSpinner;
 
-import static Utils.ToastUtils.toastMessage;
+import static com.example.yischool.Utils.ToastUtils.toastMessage;
 import static com.example.yischool.InitApplication.getAppContext;
 
 /**

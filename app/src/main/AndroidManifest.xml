@@ -18,13 +18,27 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <!-- 音频捕获权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 百度地图定位增加权限 -->
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- SD卡读取权限，用户写入离线定位数据,（权限待处理） -->
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <!--读取系统信息，包含系统版本等信息，用作统计-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!--获取统计数据-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".InitApplication"
@@ -34,6 +48,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- 百度地图AK鉴权 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="bkuSLPoIQkWlaEwOxXCkBpCAaowVIwPN"/>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Splash_Theme">
@@ -61,7 +86,7 @@
         <activity android:name=".AllCategoryActivity" />
 
         <service
-            android:name="service.AllCategoryService"
+            android:name="com.example.yischool.service.AllCategoryService"
             android:enabled="true"
             android:exported="true" />
 
@@ -84,7 +109,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".publish.ChooseCategoryActivity"></activity>
+        <activity android:name=".publish.ChooseCategoryActivity" />
+        <activity android:name=".publish.ChoosePositionActivity"/>
     </application>
 
 </manifest>

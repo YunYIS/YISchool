@@ -18,10 +18,10 @@ import com.example.yischool.R;
 import com.example.yischool.SearchActivity;
 import com.example.yischool.SpecificCategoryActivity;
 
-import ViewHelper.CommodityRecyclerHelper;
-import ViewHelper.SlideViewPagerHelper;
-import customview.EditTextView;
-import customview.ImgTextButton;
+import com.example.yischool.ViewHelper.CommodityRecyclerHelper;
+import com.example.yischool.ViewHelper.SlideViewPagerHelper;
+import com.example.yischool.customview.EditTextView;
+import com.example.yischool.customview.ImgTextButton;
 
 
 public class HomePageFragment extends Fragment implements View.OnClickListener, ImgTextButton.OnClickedListener{

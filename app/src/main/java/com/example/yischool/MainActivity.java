@@ -14,7 +14,7 @@ import com.example.yischool.mainFragment.ShoppingCartFragment;
 import com.example.yischool.mainFragment.LoginHintFragment;
 import com.example.yischool.publish.PublishActivity;
 
-import customview.ImgTextButton;
+import com.example.yischool.customview.ImgTextButton;
 
 public class MainActivity extends AppCompatActivity{
 

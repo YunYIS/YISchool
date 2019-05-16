@@ -18,13 +18,13 @@ import com.example.yischool.R;
 
 import java.util.regex.Pattern;
 
-import Bean.ServerDatabaseBean.User;
+import com.example.yischool.Bean.ServerDatabaseBean.User;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-import static Utils.ToastUtils.toastMessage;
+import static com.example.yischool.Utils.ToastUtils.toastMessage;
 
 /**
  * @author 张云天

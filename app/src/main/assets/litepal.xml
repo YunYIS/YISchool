@@ -3,6 +3,6 @@
     <dbname value="CommodityCard"/>
     <version value="1"/>
     <list>
-        <mapping class="Bean.jsonBean.CommodityCardBean"/>
+        <mapping class="com.example.yischool.Bean.jsonBean.CommodityCardBean"/>
     </list>
 </litepal>

@@ -28,11 +28,10 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import Utils.FileUtils;
+import com.example.yischool.Utils.FileUtils;
 
 /**
  * @author 张云天
@@ -52,10 +51,10 @@ public class BigPictureBrowserActivity extends AppCompatActivity implements View
     private ImageView editPictureButton; //编辑图片按钮
     private ViewPager viewPager;
 
-    private boolean isChangePhotos = false;//记录是否改变了图片（删除或编辑）
+    private boolean isChangePhotos = false;//记录是否改变了图片（删除 或 编辑成功 算作修改）
     private int index;
     private List<File> photoFiles;
-    private List<File> videoFiles;
+    private List<File> videoFiles;//为了通用，而不是只能浏览一个视频
     private List<View> viewList;//ViewPager数据源
     private MyViewPagerAdapter adapter;//ViewPager适配器
 
@@ -247,6 +246,7 @@ public class BigPictureBrowserActivity extends AppCompatActivity implements View
 
                     }else{//图片浏览器中已无图片
                         videoFiles.remove(index);//删除最后一张图片数据
+                        result();
                         finish();//删除了所有图片，退出活动
                     }
 
@@ -269,6 +269,7 @@ public class BigPictureBrowserActivity extends AppCompatActivity implements View
                         adapter.notifyDataSetChanged();
                     }else{//图片浏览器中已无图片
                         photoFiles.remove(index-videoFiles.size());//删除最后一张图片数据
+                        result();
                         finish();//删除了所有图片，退出活动
                     }
                 }
@@ -335,6 +336,8 @@ public class BigPictureBrowserActivity extends AppCompatActivity implements View
             switch (requestCode){
                 case REQUEST_CODE_PICTURE_BROWSER:
                     if(data != null){
+                        //图片已修改过，返回PublishActivity时，保存数据
+                        isChangePhotos = true;
                         Bitmap bitmap = data.getParcelableExtra("data");
                         //返回活动立即覆盖当前图片，采用修改以后的图片
                         final File file = photoFiles.get(index-videoFiles.size());

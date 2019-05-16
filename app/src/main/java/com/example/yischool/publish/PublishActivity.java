@@ -1,5 +1,6 @@
 package com.example.yischool.publish;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -31,6 +32,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yischool.BigPictureBrowserActivity;
 import com.example.yischool.CustomCameraActivity;
+import com.example.yischool.InitApplication;
 import com.example.yischool.R;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -41,10 +43,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Bean.ServerDatabaseBean.Commodity;
-import Utils.FileUtils;
-import Utils.Glide4Engine;
-import Utils.ToastUtils;
+import com.example.yischool.Bean.ServerDatabaseBean.AddressDetail;
+import com.example.yischool.Bean.ServerDatabaseBean.Category;
+import com.example.yischool.Bean.ServerDatabaseBean.Commodity;
+import com.example.yischool.Utils.FileUtils;
+import com.example.yischool.Utils.Glide4Engine;
+import com.example.yischool.Utils.ToastUtils;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UploadBatchListener;
+
+import static com.example.yischool.Bean.ServerDatabaseBean.Commodity.MEANS_EXCHANGE_FACE;
+import static com.example.yischool.Bean.ServerDatabaseBean.Commodity.MEANS_EXCHANGE_MAIL;
+import static com.example.yischool.Bean.ServerDatabaseBean.Commodity.MEANS_EXCHANGE_TAKE;
 
 /**
  * @author 张云天
@@ -66,6 +78,11 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     public static final int REQUEST_CODE_VIDICON = 4;
     //requestCode(大图片浏览活动，编辑器)
     public static final int REQUEST_CODE_BIG_PICTURE = 5;
+    //requestCode 分类选择器
+    public static final int REQUEST_CODE_CHOOSE_CATEGORY = 6;
+    //requestCode 定位
+    public static final int REQUEST_CODE_CHOOSE_POSITION = 7;
+
 
 
     private ImageView backButton;//取消按钮
@@ -75,6 +92,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private EditText priceEditText;//价格（只允许输入数字）
     private EditText categoryEditText;//分类（多级选择按钮）
     private EditText brandEditText;//品牌
+    private ViewGroup locationLayout;//定位布局
     private TextView locationTextView;//定位按钮（多级选择或自动定位）
     // 交易方式
     private CheckBox takeCheck;
@@ -82,10 +100,13 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private CheckBox mailCheck;
     private Button completePublishButton;//确认发布
     private RoundImageView addPhotoVideoButton;//添加图片或视频按钮（代码动态加入）
+    private ProgressDialog progressDialog;
 
     private List<File> photoFiles = new ArrayList<>();//用户上传(或拍摄)的图片或视频缩略图展示（最多11张）
     private File videoFile;//视频文件只能有一个
     private Commodity commodity = new Commodity();//待上传的商品
+    private Category category;//商品选择器活动返回的商品分类
+    private AddressDetail addressDetail;//选择定位器返回位置信息
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +125,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         faceCheck = findViewById(R.id.face_check);
         mailCheck = findViewById(R.id.mail_check);
         completePublishButton = findViewById(R.id.complete_publish_button);
+        locationLayout = findViewById(R.id.location_layout);
 
         //由父布局宽度计算tableLayout布局每个子项宽度，所以在代码中添加addPhotoVideoButton
         addPhotoVideoButton = new RoundImageView(this);
@@ -126,40 +148,101 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         //添加addPhotoVideoButton，以及选择后的图片布局
         inflateTableLayout();
 
-        completePublishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String titleStr = getTitleStr();
-                String contentStr = getContentStr();
-                Double price = getPrice();
-                String brand = getBrandStr();
-                int meansExchange = getMeansOfExchange();
-
-                if(titleStr == null){
-                    ToastUtils.toastMessage(PublishActivity.this,"请填写标题");
-                }else if(contentStr == null){
-                    ToastUtils.toastMessage(PublishActivity.this,"请填写商品描述内容");
-                }else if(price == null){
-                    ToastUtils.toastMessage(PublishActivity.this,"请填写价格");
-                }else if(meansExchange == 0){
-                    ToastUtils.toastMessage(PublishActivity.this,"请选择交易方式");
-                }
-            }
-        });
+        completePublishButton.setOnClickListener(this);
+        categoryEditText.setOnClickListener(this);
+        locationLayout.setOnClickListener(this);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.complete_publish_button://完成上传点击事件
+                    //组装商品数据
+                    boolean ret = setCommodityData();
+                    if(ret){
+                        //视频和图片在上传时处理
+                        //开始上传商品数据
+                        showProgressDialog();
+                        uploadCommodity();
+                    }
+                break;
+            case R.id.category_edit_text:
+                Intent intent = new Intent(PublishActivity.this, ChooseCategoryActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_CHOOSE_CATEGORY);
+                break;
+            case R.id.location_layout:
+                Intent intent1 = new Intent(PublishActivity.this, ChoosePositionActivity.class);
+                startActivityForResult(intent1, REQUEST_CODE_CHOOSE_POSITION);
+                break;
+            case R.id.back_button:
+                //@TODO 保存草稿
+                finish();
+                break;
+            default:break;
+        }
+    }
+
+    /**
+     * 设置商品数据
+     */
+    private boolean setCommodityData() {
+
+        //是否填写完成
+        boolean isTure = false;
+        //获取填写数据
+        String titleStr = getTitleStr();
+        String contentStr = getContentStr();
+        Double price = getPrice();
+        String brand = getBrandStr();
+        int meansExchange = getMeansOfExchange();
+
+        if(titleStr == null){
+            ToastUtils.toastMessage(PublishActivity.this,"请填写标题");
+        }else if(contentStr == null){
+            ToastUtils.toastMessage(PublishActivity.this,"请填写商品描述内容");
+        }else if(price == null){
+            ToastUtils.toastMessage(PublishActivity.this,"请填写价格");
+        }else if(meansExchange == 0){
+            ToastUtils.toastMessage(PublishActivity.this,"请选择交易方式");
+        }else if(category == null){
+            ToastUtils.toastMessage(PublishActivity.this,"请选择商品分类");
+        }else if(addressDetail == null){
+            ToastUtils.toastMessage(PublishActivity.this,"请选择发布位置");
+        }else if(videoFile == null && photoFiles.size() == 0) {
+            ToastUtils.toastMessage(PublishActivity.this,"至少上传一个视频或图片");
+        }else {
+            //至此，以完整填写所有必填项
+            //开始设置发布商品数据
+            commodity.setTitle(titleStr)
+                    .setDetail(contentStr)
+                    .setPublishUser(InitApplication.getCurrentUser())
+                    .setPublishPosition(addressDetail)
+                    .setCategory(category)
+                    .setPrice(price)
+                    .setBrand(brand)
+                    .setMeansOfExchange(meansExchange)
+                    .setSoldOut(false);
+
+            isTure = true;
+        }
+
+        return isTure;
+    }
+    /**
+     * 获取交易方式
+     * @return
+     */
     private int getMeansOfExchange(){
         int retMeans = 0;
         if(takeCheck.isChecked()){
-            retMeans += 1;
+            retMeans += MEANS_EXCHANGE_TAKE;
         }
         if(faceCheck.isChecked()){
-            retMeans += 2;
+            retMeans += MEANS_EXCHANGE_FACE;
         }
         if(mailCheck.isChecked()){
-            retMeans += 4;
+            retMeans += MEANS_EXCHANGE_MAIL;
         }
         return retMeans;
     }
@@ -169,7 +252,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
      * @return
      */
     private String getBrandStr(){
-        Editable editable = titleEditText.getText();
+        Editable editable = brandEditText.getText();
         String brandStr = null;
         if(editable != null){
             brandStr = editable.toString();
@@ -182,7 +265,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
      * @return
      */
     private Double getPrice(){
-        Editable editable = titleEditText.getText();
+        Editable editable = priceEditText.getText();
         Double price = null;
         if(editable != null){
             String priceStr = editable.toString();
@@ -472,13 +555,6 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
             });
         }
     }
-    
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-
-        }
-    }
 
     /**
      * 获取 照片 或 视频 活动返回的数据
@@ -492,6 +568,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         if(resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_ALBUM :
+
                     //照片返回 选择照片的Uris
                     Log.d(LOG_TAG, "Image Uris size: " + Matisse.obtainResult(data).size());
                     Log.d(LOG_TAG, "Image Uri 0: " + Matisse.obtainResult(data).get(0).toString());
@@ -505,6 +582,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                     inflateTableLayout();
                     break;
                 case REQUEST_CODE_VIDEO:
+
                     //视频返回，返回的视频封面Uri，而不是视频
                     Log.d(LOG_TAG, "video Uris size: " + Matisse.obtainResult(data).size());
                     Log.d(LOG_TAG, "video Uri 0: " + Matisse.obtainResult(data).get(0).toString());
@@ -514,6 +592,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                     inflateTableLayout();
                     break;
                 case REQUEST_CODE_CAMERA:
+                    //拍照返回
                     Object[] objects = (Object[])data.getSerializableExtra("customCameraPhotos");
                     for(int i = 0; i < objects.length; i++){
                         photoFiles.add((File)objects[i]);
@@ -521,18 +600,133 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                     inflateTableLayout();
                     break;
                 case REQUEST_CODE_VIDICON:
+                    //获取返回拍摄数据
                     videoFile = (File)data.getSerializableExtra("customCameraVideo");
                     inflateTableLayout();
                     break;
                 case REQUEST_CODE_BIG_PICTURE:
-
-
+                    //图片，视频浏览器可以删除，编辑图片
+                    if(data != null){
+                        if(data.hasExtra("videoFiles")){
+                            Object[] objects1 = (Object[])data.getSerializableExtra("videoFiles");
+                            if(objects1.length > 0) {
+                                videoFile = (File) objects1[0];
+                            }else{
+                                videoFile = null;
+                            }
+                        }
+                        if(data.hasExtra("photoFiles")){
+                            Object[] objects2 = (Object[])data.getSerializableExtra("photoFiles");
+                            //清除原有图片，接收修改结果
+                            photoFiles.clear();
+                            for(int i = 0; i < objects2.length; i++){
+                                photoFiles.add((File)objects2[i]);
+                            }
+                        }
+                    }
+                    break;
+                case REQUEST_CODE_CHOOSE_CATEGORY:
+                    //获取返回类别数据
+                    if(data != null && data.hasExtra("choose_category")){
+                        category = (Category)data.getSerializableExtra("choose_category");
+                        //设置EditText显示
+                        categoryEditText.setText(category.getPrimaryCategory()+" - "+category.getSecondaryCategory());
+                    }
+                    break;
+                case REQUEST_CODE_CHOOSE_POSITION:
+                    //获取返回位置信息数据
+                    addressDetail = (AddressDetail) data.getSerializableExtra("publish_position");
+                    locationTextView.setText(addressDetail.getProvince()+","+addressDetail.getCity()+","+addressDetail.getDistrict());
                     break;
                 default:break;
             }
 
         }
+    }
 
+    private void uploadCommodity(){
+
+        //文件路径数组长度
+        int length = photoFiles.size();
+        if(videoFile != null){
+            length += 1;
+        }
+        //文件路径数组
+        final String[] filePaths = new String[length];
+        int i = 0;
+        if(videoFile != null){
+            filePaths[i] = videoFile.getAbsolutePath();
+            ++i;
+        }
+        if(photoFiles.size() > 0){
+            for(File f : photoFiles){
+                filePaths[i] = f.getAbsolutePath();
+                ++i;
+            }
+        }
+        Log.d(LOG_TAG, "filePath: " + filePaths[0]);
+        //批量上传文件, 上传商品
+        BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
+            @Override
+            public void onSuccess(List<BmobFile> list, List<String> list1) {
+                //文件全部上传成功
+                if(list.size()==filePaths.length){
+                    Log.d(LOG_TAG, "文件全部上传成功");
+                    //设置发布商品图片
+                    commodity.addAll("pictureAndVideo", list);
+                    //文件上传成功后, 才上传商品
+                    commodity.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if(e == null){
+                                Log.d(LOG_TAG, "添加商品成功");
+                                closeProgressDialog();
+                                ToastUtils.toastMessage(PublishActivity.this, "发布商品成功");
+                                finish();
+                            }else{
+                                Log.d(LOG_TAG, "添加商品失败, " + e.getMessage());
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onProgress(int i, int i1, int i2, int i3) { }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.d(LOG_TAG, "文件上传失败，错误描述："+s);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //@TODO 保存草稿
+
+        finish();
+    }
+
+    /**
+     * 显示进度对话框
+     */
+    private void showProgressDialog() {
+        if(progressDialog == null){
+            progressDialog = new ProgressDialog(PublishActivity.this);
+            progressDialog.setMessage("正在上传商品数据,请勿退出...");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    /**
+     * 关闭进度对话框
+     */
+    private void closeProgressDialog() {
+        if(progressDialog != null){
+            progressDialog.dismiss();
+        }
     }
 }
 

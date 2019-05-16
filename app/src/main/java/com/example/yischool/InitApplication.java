@@ -2,9 +2,11 @@ package com.example.yischool;
 
 import android.content.Context;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import org.litepal.LitePalApplication;
 
-import Bean.ServerDatabaseBean.User;
+import com.example.yischool.Bean.ServerDatabaseBean.User;
 import cn.bmob.v3.Bmob;
 
 public class InitApplication extends LitePalApplication {
@@ -17,6 +19,7 @@ public class InitApplication extends LitePalApplication {
         super.onCreate();
         context = getContext();
         Bmob.initialize(this, "d9c46a4e0dbb4be72ae50f8aa9c5e122");
+        SDKInitializer.initialize(getApplicationContext());
     }
     /**
      * 获得一个应用程序级别的Context

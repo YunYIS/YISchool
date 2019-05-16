@@ -14,8 +14,8 @@ import android.widget.ListView;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import adapter.SearchListAdapter;
-import customview.EditTextView;
+import com.example.yischool.adapter.SearchListAdapter;
+import com.example.yischool.customview.EditTextView;
 
 /**
  * @author 张云天

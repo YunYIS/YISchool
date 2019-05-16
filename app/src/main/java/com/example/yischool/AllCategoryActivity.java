@@ -37,10 +37,10 @@ import com.bumptech.glide.request.transition.Transition;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import Bean.ServerDatabaseBean.Category;
-import Utils.NetworkUtils;
-import customview.ImgTextButton;
-import service.AllCategoryService;
+import com.example.yischool.Bean.ServerDatabaseBean.Category;
+import com.example.yischool.Utils.NetworkUtils;
+import com.example.yischool.customview.ImgTextButton;
+import com.example.yischool.service.AllCategoryService;
 
 /**
  * @author 张云天

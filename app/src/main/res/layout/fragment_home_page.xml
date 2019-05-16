@@ -26,7 +26,7 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
-        <customview.EditTextView
+        <com.example.yischool.customview.EditTextView
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@id/slideshow_view_pager" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 app:text="手机"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_book"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -108,7 +108,7 @@
                 app:text="图书"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_costume"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -125,7 +125,7 @@
                 app:text="服饰"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_digital_products"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -142,7 +142,7 @@
                 app:text="数码"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_game"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -161,7 +161,7 @@
                 app:text="游戏"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_household_appliances"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                 app:text="家居家电"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_vehicle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -199,7 +199,7 @@
                 app:text="二手车"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_service"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -216,7 +216,7 @@
                 app:text="服务"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_sports"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -233,7 +233,7 @@
                 app:text="体育运动"
                 app:textSize="@dimen/category_text_size" />
 
-            <customview.ImgTextButton
+            <com.example.yischool.customview.ImgTextButton
                 android:id="@+id/category_all"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
