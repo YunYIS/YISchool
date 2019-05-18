@@ -89,8 +89,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         slideViewPagerHelper = new SlideViewPagerHelper(getActivity(), slideViewPager, indicatorDotLayoout,
                 getSaveBundleCurrPosition(savedInstanceState));
         slideViewPagerHelper.startSlideViewPager();
-        commodityRecyclerHelper = new CommodityRecyclerHelper(getActivity(), commodityCardRecyclerView);
-        commodityRecyclerHelper.startCardRecycler();
+//        commodityRecyclerHelper = new CommodityRecyclerHelper(null, getActivity(), commodityCardRecyclerView);
+//        commodityRecyclerHelper.startCardRecycler();
 
         return view;
     }
@@ -182,7 +182,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
-     * 从临时保存的数据中获取currPosition的值
+     * 从临时保存的数据中获取轮播图currPosition的值
      * @param save 但要考虑第一次进入时saveInstanceState为空
      * @return
      */

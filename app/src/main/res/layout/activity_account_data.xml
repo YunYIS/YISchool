@@ -208,6 +208,7 @@
         android:layout_alignRight="@id/account_edit_view"
         android:layout_alignEnd="@id/account_edit_view"
         android:layout_marginTop="15dp">
+
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/label_display_layout"
             app:max_select="-1"

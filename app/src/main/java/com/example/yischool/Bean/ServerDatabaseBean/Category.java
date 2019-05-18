@@ -1,6 +1,7 @@
 package com.example.yischool.Bean.ServerDatabaseBean;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import cn.bmob.v3.BmobObject;
 
@@ -56,5 +57,35 @@ public class Category extends BmobObject implements Serializable {
 
     public void setSpecificCategory(String specificCategory) {
         this.specificCategory = specificCategory;
+    }
+
+    /**
+     * 由于Category可能是由数据库查询得到，所以，在有Id时，使用主键Id（唯一）作为hash code
+     * 主要也是用于查询时存储
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        if(getObjectId() != null && category.getObjectId() != null){
+            return getObjectId().equals(category.getObjectId());
+        }else {
+            return Objects.equals(primaryCategory, category.primaryCategory) &&
+                    Objects.equals(secondaryCategory, category.secondaryCategory) &&
+                    Objects.equals(specificCategory, category.specificCategory) &&
+                    Objects.equals(commodityIconUrl, category.commodityIconUrl);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        if(getObjectId() != null){
+            return getObjectId().hashCode();
+        }else {
+            return Objects.hash(primaryCategory, secondaryCategory, specificCategory, commodityIconUrl);
+        }
     }
 }

@@ -6,4 +6,5 @@
     <color name="white">#ffffff</color>
     <color name="slideshowDot">#30090909</color>
     <color name="transparent">#00000000</color>
+    <color name="red">#7E0000</color>
 </resources>

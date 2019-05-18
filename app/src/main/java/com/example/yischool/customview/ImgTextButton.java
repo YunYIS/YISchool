@@ -78,6 +78,7 @@ public class ImgTextButton extends LinearLayout {
      * @param defStyleAttr
      */
     private void init(Context context, AttributeSet attrs, int defStyleAttr){
+
         this.context = context;
         //加载ImgTextButton布局
         LayoutInflater.from(context).inflate(R.layout.view_img_text_button, this, true);

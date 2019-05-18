@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
+
+    <ImageView
+        android:id="@+id/item_icon_view"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        tools:src="@drawable/default_head_portrait"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/item_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/colorPrimaryDark"
+        tools:text="测试数据"/>
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_advance"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="20dp"/>
+
+</LinearLayout>

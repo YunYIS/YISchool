@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--空数据提示界面界面-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/icon_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_empty_content"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/empty_hint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="无数据"
+        android:layout_below="@id/icon_empty"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/edit_margin_top"/>
+
+</RelativeLayout>

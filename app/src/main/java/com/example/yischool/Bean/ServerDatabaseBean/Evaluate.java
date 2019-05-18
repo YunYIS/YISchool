@@ -1,6 +1,10 @@
 package com.example.yischool.Bean.ServerDatabaseBean;
 
+import java.util.List;
+
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * @author 张云天
@@ -13,6 +17,15 @@ public class Evaluate extends BmobObject {
     private User publishUser;//发表评价的用户
     private User evaluatedUser;//被评价的用户
     private int evaluateOfStar;//该评价的星级，最高五星（整型）
+    private List<BmobFile> pictures;//评价图片
+
+    public List<BmobFile> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<BmobFile> pictures) {
+        this.pictures = pictures;
+    }
 
     public String getContent() {
         return content;

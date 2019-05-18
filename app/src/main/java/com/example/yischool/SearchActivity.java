@@ -25,7 +25,7 @@ import com.example.yischool.customview.EditTextView;
  */
 public class  SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String SEARCH_CONTENT = "search_content_key";//以键值对的形式向搜索结果页面传递信息（key值）
+    public static final String SEARCH_CONTENT = "search_content";//以键值对的形式向搜索结果页面传递信息（key值）
     public static final String SHARED_PREFERENCE_NAME = "searchHistory";//sharedPreference文件名
 
     private ImageView backImgView;//返回按钮
@@ -97,7 +97,7 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                     Intent startSearchResultActivity = new Intent(this, SearchResultActivity.class);
                     startSearchResultActivity.putExtra(SEARCH_CONTENT, editContent);
                     startActivity(startSearchResultActivity);//跳转搜索结果界面
-                    finish();//结束活动
+                    finish();//结束活动，返回时则回到搜索活动上个活动
                     historyData.add(editContent);//由于是HashSet类型，所以数据不会重复
                 }
                 break;

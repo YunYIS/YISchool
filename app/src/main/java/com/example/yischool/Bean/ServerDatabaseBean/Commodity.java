@@ -1,5 +1,7 @@
 package com.example.yischool.Bean.ServerDatabaseBean;
 
+import org.litepal.annotation.Column;
+
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
@@ -29,7 +31,15 @@ public class Commodity extends BmobObject {
     private List<BmobFile> pictureAndVideo;//关于商品的所有图片和视频信息（保存为File，因为不需要重复利用图片）
     private String brand;//品牌
     private int meansOfExchange;//交易方式
+    private int browseCount;//浏览数量
 
+    public int getBrowseCount() {
+        return browseCount;
+    }
+
+    public void setBrowseCount(int browseCount) {
+        this.browseCount = browseCount;
+    }
 
     public String getTitle() {
         return title;

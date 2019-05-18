@@ -23,6 +23,18 @@ public class CommodityCardBean {
 
     private CommodityCardBean(){}
 
+    public CommodityCardBean(String commodityImgUrl, String title, double price, int collectNumber,
+                             String accountPhotoUrl, String accountName, String commodityID) {
+
+        this.commodityImgUrl = commodityImgUrl;
+        this.title = title;
+        this.price = price;
+        this.collectNumber = collectNumber;
+        this.accountPhotoUrl = accountPhotoUrl;
+        this.accountName = accountName;
+        this.commodityID = commodityID;
+    }
+
     public String getCommodityImgUrl() {
         return commodityImgUrl;
     }

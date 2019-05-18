@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -35,9 +36,9 @@
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
-    <!--读取系统信息，包含系统版本等信息，用作统计-->
+    <!-- 读取系统信息，包含系统版本等信息，用作统计 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <!--获取统计数据-->
+    <!-- 获取统计数据 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -52,7 +53,7 @@
         <!-- 百度地图AK鉴权 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="bkuSLPoIQkWlaEwOxXCkBpCAaowVIwPN"/>
+            android:value="bkuSLPoIQkWlaEwOxXCkBpCAaowVIwPN" />
 
         <service
             android:name="com.baidu.location.f"
@@ -72,7 +73,8 @@
             android:name=".MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".SearchResultActivity" />
+        <activity android:name=".SearchResultActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".SpecificCategoryActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
@@ -86,7 +88,7 @@
         <activity android:name=".AllCategoryActivity" />
 
         <service
-            android:name="com.example.yischool.service.AllCategoryService"
+            android:name=".service.AllCategoryService"
             android:enabled="true"
             android:exported="true" />
 
@@ -110,7 +112,13 @@
         </provider>
 
         <activity android:name=".publish.ChooseCategoryActivity" />
-        <activity android:name=".publish.ChoosePositionActivity"/>
+        <activity android:name=".publish.ChoosePositionActivity" />
+        <activity android:name=".personal.UserPagerActivity" />
+
+        <service
+            android:name=".service.CommodityCardSearchService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>
