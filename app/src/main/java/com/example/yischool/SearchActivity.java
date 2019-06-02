@@ -1,11 +1,14 @@
 package com.example.yischool;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +30,7 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
 
     public static final String SEARCH_CONTENT = "search_content";//以键值对的形式向搜索结果页面传递信息（key值）
     public static final String SHARED_PREFERENCE_NAME = "searchHistory";//sharedPreference文件名
+
 
     private ImageView backImgView;//返回按钮
     private EditTextView editTextView;//输入框
@@ -76,6 +80,32 @@ public class  SearchActivity extends AppCompatActivity implements View.OnClickLi
                 startSearchResultActivity.putExtra(SEARCH_CONTENT, historyContentStr);
                 startActivity(startSearchResultActivity);//直接通过历史记录开始搜索
                 finish();
+            }
+        });
+
+        //设置软键盘回车键，监听事件
+        editTextView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if(imm.isActive()){
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0 );
+                        //保存搜索历史
+                        String editContent = editTextView.getText().toString();//搜索内容字符串
+                        Log.d("onClick edit", editContent);
+                        if(editContent != null && editContent.length() > 0){//搜索框内容不为空
+                            Intent startSearchResultActivity = new Intent(SearchActivity.this,
+                                    SearchResultActivity.class);
+                            startSearchResultActivity.putExtra(SEARCH_CONTENT, editContent);
+                            startActivity(startSearchResultActivity);//跳转搜索结果界面
+                            finish();//结束活动，返回时则回到搜索活动上个活动
+                            historyData.add(editContent);//由于是HashSet类型，所以数据不会重复
+                        }
+                    }
+                    return true;
+                }
+                return false;
             }
         });
     }

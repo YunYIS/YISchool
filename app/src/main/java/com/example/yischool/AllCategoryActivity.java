@@ -119,9 +119,12 @@ public class AllCategoryActivity extends AppCompatActivity {
      * @param primaryCategory 根据不同的大类别加载不同的内容页面
      */
     private void inflateView(final String primaryCategory){
+
         if(!NetworkUtils.isNetworkConnected(this)){//如果没有网络连接，显示提示布局
+
             includeLoadingLayout.setVisibility(View.GONE);//隐藏ProgressBar
             particularCategoryLayout.removeAllViews();
+
             try {//获取网络错误提示布局
                 networkErrorLayout = (RelativeLayout) viewStub.inflate();//膨胀网络错误提示布局(此处错误提示布局可见)
             }catch (Exception e){
@@ -130,6 +133,7 @@ public class AllCategoryActivity extends AppCompatActivity {
                 }
                 networkErrorLayout.setVisibility(View.VISIBLE);//(以膨胀后的布局设置可见)
             }
+
             //获取网络错误提示布局中的控件，并添加点击事件(点击提示图片或文字)
             ImageView imageView = networkErrorLayout.findViewById(R.id.no_network_img);
             imageView.setOnClickListener(new View.OnClickListener() {

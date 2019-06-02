@@ -5,15 +5,23 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import android.os.Handler;
+
+import com.example.yischool.Bean.ServerDatabaseBean.Category;
+import com.example.yischool.Bean.ServerDatabaseBean.Collection;
+import com.example.yischool.Bean.ServerDatabaseBean.Commodity;
+import com.example.yischool.Bean.ServerDatabaseBean.browsingHistory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 
@@ -85,6 +93,15 @@ public class QueryHelper<T> {
 
     }
 
+    public void addOrEqualKey(String key, Object value){
+
+        BmobQuery<T> query = new BmobQuery<>();
+        query.addWhereEqualTo(key, value);
+        orQueries.add(query);
+
+    }
+
+
     /**
      * 添加相等匹配查询 ，并 复合，keys的length必须和values的length相等
      * @param keys 列名s
@@ -107,6 +124,18 @@ public class QueryHelper<T> {
      * @param value
      */
     public void addAndEqualKey(String key, String value){
+
+        BmobQuery<T> query = new BmobQuery<>();
+        query.addWhereEqualTo(key, value);
+        andQueries.add(query);
+    }
+
+    /**
+     * 添加相等匹配查询 ，并 复合
+     * @param key
+     * @param value
+     */
+    public void addAndEqualKey(String key, Object value){
 
         BmobQuery<T> query = new BmobQuery<>();
         query.addWhereEqualTo(key, value);
@@ -206,29 +235,58 @@ public class QueryHelper<T> {
      * @param handler
      * @param requestCode //多线程区分返回的那个数据
      */
-    public static void queryFormServer(BmobQuery bmobQuery, final Handler handler, final int requestCode){
+    public void queryFormServer(BmobObject c, final Handler handler, final int requestCode){
 
-        bmobQuery.findObjects(new FindListener() {
-            @Override
-            public void done(List list, BmobException e) {
-
-                Message message = new Message();
-                if(e==null){
-
-                    Log.d(LOG_TAG,"查询成功："+list.size());
-                    message.what = QUERY_HELPER_SUCCESS;
-                    message.arg1 = requestCode;
-                    message.obj = list;
-                    handler.sendMessage(message);
-                }else{
-
-                    Log.d(LOG_TAG,"查询失败："+e.getMessage()+","+e.getErrorCode());
-                    message.what = QUERY_HELPER_FAILED;
-                    message.arg1 = requestCode;
-                    handler.sendMessage(message);
+        FindListener listener = null;
+        if(c instanceof Category){
+            listener = new FindListener<Category>(){
+                @Override
+                public void done(List<Category> list, BmobException e) {
+                    sendResult(e, list, handler, requestCode);
                 }
-            }
-        });
+            };
+        }else if(c instanceof browsingHistory){
+            listener = new FindListener<browsingHistory>(){
+                @Override
+                public void done(List<browsingHistory> list, BmobException e) {
+                    sendResult(e, list, handler, requestCode);
+                }
+            };
+        } else if(c instanceof Collection){
+            listener = new FindListener<Collection>(){
+                @Override
+                public void done(List<Collection> list, BmobException e) {
+                    sendResult(e, list, handler, requestCode);
+                }
+            };
+        }else if(c instanceof Commodity){
+            listener = new FindListener<Commodity>(){
+                @Override
+                public void done(List<Commodity> list, BmobException e) {
+                    sendResult(e, list, handler, requestCode);
+                }
+            };
+        }
+        bmobQuery.findObjects(listener);
+    }
+
+    private void sendResult(BmobException e, List list, Handler handler, int requestCode){
+
+        Message message = new Message();
+        if(e==null){
+
+            Log.d(LOG_TAG,"查询成功："+list.size());
+            message.what = QUERY_HELPER_SUCCESS;
+            message.arg1 = requestCode;
+            message.obj = list;
+            handler.sendMessage(message);
+        }else{
+
+            Log.d(LOG_TAG,"查询失败："+e.getMessage()+","+e.getErrorCode());
+            message.what = QUERY_HELPER_FAILED;
+            message.arg1 = requestCode;
+            handler.sendMessage(message);
+        }
     }
     /**
      * 开始统计查询
@@ -273,13 +331,46 @@ public class QueryHelper<T> {
         });
     }
 
+    public void queryCount(Class c, final Handler handler, final int requestCode){
 
+        bmobQuery.count(c, new CountListener() {
+            @Override
+            public void done(Integer integer, BmobException e) {
+
+                Message message = new Message();
+                if(e==null){
+                    Log.d(LOG_TAG, "count查询成功: "+ integer);
+                    message.what = QUERY_HELPER_SUCCESS;
+                    message.arg1 = requestCode;
+                    message.arg2 = integer;
+                    handler.sendMessage(message);
+                }else{
+                    Log.d(LOG_TAG, "count查询失败: "+ e.getMessage());
+                    message.what = QUERY_HELPER_FAILED;
+                    message.arg1 = requestCode;
+                    handler.sendMessage(message);
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 为分组统计添加过滤条件
+     * @param hashMap
+     * @return
+     */
+    public QueryHelper setHaving(HashMap hashMap){
+
+        bmobQuery.having(hashMap);
+        return this;
+    }
     /**
      * 指定查询时返回的列
      * @param keys 指定多列时用,号分隔每列，如：resultColumnKeys("objectId,name,age");
      * @return
      */
-    public QueryHelper<T> resultColumnKeys(String keys){
+    public QueryHelper resultColumnKeys(String keys){
 
         bmobQuery.addQueryKeys(keys);
         return this;
@@ -319,49 +410,29 @@ public class QueryHelper<T> {
     }
 
     /**
-     * 分组统计
+     * 分组统计,(默认返回数量)
      * @param columnName 以columnName[] 列名分组
      * @return
      */
     public QueryHelper setGroupby(String[] columnName){
 
-        bmobQuery.groupby(columnName);
         //返回统计结果计数 "_count"
         bmobQuery.setHasGroupCount(true);
+
+        bmobQuery.groupby(columnName);
+        return this;
+    }
+    /**
+     * 设置查询跳过条数
+     * @param count
+     * @return
+     */
+    public QueryHelper setSkipCount(int count){
+
+        bmobQuery.setSkip(count);
         return this;
     }
 
-    public static class test{
-        /**
-         * 开始查询数据
-         * @param handler
-         * @param requestCode //多线程区分返回的那个数据
-         */
-        public static void queryFormServer(BmobQuery bmobQuery, final Handler handler, final int requestCode){
-
-            bmobQuery.findObjects(new FindListener() {
-                @Override
-                public void done(List list, BmobException e) {
-
-                    Message message = new Message();
-                    if(e==null){
-
-                        Log.d(LOG_TAG,"查询成功："+list.size());
-                        message.what = QUERY_HELPER_SUCCESS;
-                        message.arg1 = requestCode;
-                        message.obj = list;
-                        handler.sendMessage(message);
-                    }else{
-
-                        Log.d(LOG_TAG,"查询失败："+e.getMessage()+","+e.getErrorCode());
-                        message.what = QUERY_HELPER_FAILED;
-                        message.arg1 = requestCode;
-                        handler.sendMessage(message);
-                    }
-                }
-            });
-        }
-    }
 }
 
 

@@ -10,11 +10,12 @@ import android.util.Log;
 import com.example.yischool.mainFragment.CommunicativeFragment;
 import com.example.yischool.mainFragment.HomePageFragment;
 import com.example.yischool.mainFragment.PersonalFragment;
-import com.example.yischool.mainFragment.ShoppingCartFragment;
 import com.example.yischool.mainFragment.LoginHintFragment;
 import com.example.yischool.publish.PublishActivity;
 
 import com.example.yischool.customview.ImgTextButton;
+
+import cn.bmob.newim.BmobIM;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
         if(InitApplication.getCurrentUser() != null){
             //tabLayout没有选择时，则返回-1
             int index = tabLayout.getSelectedTabPosition()==-1 ? 0 : tabLayout.getSelectedTabPosition();
-            if(index != 2){
+            if(index != 2 && index != 1){
                 fragment = fragments[index];
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
             }
@@ -54,19 +55,19 @@ public class MainActivity extends AppCompatActivity{
         tabLayout.addTab(tabLayout.newTab().setCustomView(
                 new ImgTextButton(this).setText("首页").setIsTouch(false).setImage(R.drawable.ic_home_page)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(
-                new ImgTextButton(this).setText("消息").setIsTouch(false).setImage(R.drawable.ic_communication)));
+                new ImgTextButton(this).setText("分类").setIsTouch(false).setImage(R.drawable.ic_all_category)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(
                 new ImgTextButton(this).setText("发布").setIsTouch(false).setImage(R.drawable.ic_publish)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(
-                new ImgTextButton(this).setText("购物车").setIsTouch(false).setImage(R.drawable.ic_shopping_cart)));
+                new ImgTextButton(this).setText("消息").setIsTouch(false).setImage(R.drawable.ic_communication)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(
                 new ImgTextButton(this).setText("个人").setIsTouch(false).setImage(R.drawable.ic_person)));
 
         fragments = new Fragment[5];
         fragments[0] = HomePageFragment.newInstance();
-        fragments[1] = CommunicativeFragment.newInstance();
+        fragments[1] = null;
         fragments[2] = null;
-        fragments[3] = ShoppingCartFragment.newInstance();
+        fragments[3] = CommunicativeFragment.newInstance();
         fragments[4] = PersonalFragment.newInstance();
         //监听事件
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -76,12 +77,18 @@ public class MainActivity extends AppCompatActivity{
                     case 0:
                         fragment = fragments[0];//首页（不需要登陆）
                         break;
-                    case 2:
-                        Intent intent = new Intent(MainActivity.this, PublishActivity.class);
-                        startActivity(intent);
-
-                        break;
                     case 1:
+                        Intent intent1 = new Intent(MainActivity.this, AllCategoryActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case 2:
+                        if(InitApplication.getCurrentUser() == null){//当前没有用户登陆
+                            fragment = LoginHintFragment.newInstance();
+                        }else{//用户已登录
+                            Intent intent2 = new Intent(MainActivity.this, PublishActivity.class);
+                            startActivity(intent2);
+                        }
+                        break;
                     case 3:
                     case 4:
                         if(InitApplication.getCurrentUser() == null){//当前没有用户登陆
@@ -107,5 +114,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_TAG, "onDestroy()");
+        //断开IM服务器连接
+        BmobIM.getInstance().disConnect();
     }
 }

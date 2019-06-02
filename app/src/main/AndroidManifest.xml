@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!-- 获取wifi网络状态的信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
@@ -40,6 +41,10 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- 获取统计数据 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 设备休眠 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 通知震动 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".InitApplication"
@@ -54,6 +59,9 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="bkuSLPoIQkWlaEwOxXCkBpCAaowVIwPN" />
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="d9c46a4e0dbb4be72ae50f8aa9c5e122" />
 
         <service
             android:name="com.baidu.location.f"
@@ -73,8 +81,9 @@
             android:name=".MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".SearchResultActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".SearchResultActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".SpecificCategoryActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
@@ -117,6 +126,36 @@
 
         <service
             android:name=".service.CommodityCardSearchService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".CommodityDetailsActivity" />
+        <activity android:name=".SessionActivity" />
+
+        <!-- 集成：1.5、配置IM SDK需要的广播和服务 -->
+        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.action.RECONNECT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="cn.bmob.newim.core.service.BmobIMService"
+            android:process=":bmobcore" />
+        <service
+            android:name="cn.bmob.newim.core.service.NotifyService"
+            android:process=":bmobcore" />
+        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
+        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
+        <service
+            android:name=".service.HomePagerCommodityService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".service.SpecificCategoryService"
             android:enabled="true"
             android:exported="true"/>
     </application>

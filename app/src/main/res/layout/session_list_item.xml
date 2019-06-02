@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="80dp">
+
+    <org.raphets.roundimageview.RoundImageView
+        android:id="@+id/list_head_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/default_head_portrait"
+        app:type="round"
+        app:corner_radius="5dp"/>
+
+    <TextView
+        android:id="@+id/user_name_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/list_head_portrait"
+        android:layout_alignTop="@id/list_head_portrait"
+        android:layout_toLeftOf="@id/message_time_text"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:lines="1"
+        tools:text="测试用户名"/>
+
+    <TextView
+        android:id="@+id/message_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/list_head_portrait"
+        android:layout_alignBottom="@id/list_head_portrait"
+        android:layout_alignRight="@id/user_name_text"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="2dp"
+        android:lines="1"
+        tools:text="测试消息"/>
+
+    <TextView
+        android:id="@+id/message_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/user_name_text"
+        android:layout_alignBottom="@id/user_name_text"
+        android:gravity="center_vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        tools:text="20:00"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/message_text_view"
+        android:layout_alignBottom="@id/message_text_view"
+        android:layout_alignStart="@id/message_time_text"
+        android:layout_alignEnd="@id/message_time_text"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/unread_message_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/unread_number_background"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp"
+            tools:text="8"/>
+    </LinearLayout>
+
+</RelativeLayout>

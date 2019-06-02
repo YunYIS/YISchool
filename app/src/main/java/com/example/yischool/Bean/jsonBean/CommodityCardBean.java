@@ -175,4 +175,17 @@ public class CommodityCardBean {
             return cardBean;
         }
     }
+
+    @Override
+    public String toString() {
+        return "CommodityCardBean{" +
+                "commodityImgUrl='" + commodityImgUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", collectNumber=" + collectNumber +
+                ", accountPhotoUrl='" + accountPhotoUrl + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", commodityID='" + commodityID + '\'' +
+                '}';
+    }
 }

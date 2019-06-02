@@ -193,27 +193,27 @@
                 app:imageWidth="22dp"
                 app:layout_constraintBottom_toBottomOf="@id/category_household_appliances"
                 app:layout_constraintLeft_toRightOf="@id/category_household_appliances"
-                app:layout_constraintRight_toLeftOf="@id/category_service"
+                app:layout_constraintRight_toLeftOf="@id/category_daily_articles"
                 app:layout_constraintTop_toTopOf="@id/category_household_appliances"
                 app:spacing="3dp"
                 app:text="二手车"
                 app:textSize="@dimen/category_text_size" />
 
             <com.example.yischool.customview.ImgTextButton
-                android:id="@+id/category_service"
+                android:id="@+id/category_daily_articles"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:imageDrawable="@drawable/ic_service"
+                app:imageDrawable="@drawable/ic_daily_articles"
                 android:background="@drawable/imgtext_button_selector"
-                app:imageHeight="25dp"
-                app:imageMarginTop="7dp"
-                app:imageWidth="25dp"
+                app:imageHeight="30dp"
+                app:imageMarginTop="3dp"
+                app:imageWidth="30dp"
                 app:layout_constraintBottom_toBottomOf="@id/category_household_appliances"
                 app:layout_constraintLeft_toRightOf="@id/category_vehicle"
                 app:layout_constraintRight_toLeftOf="@id/category_sports"
                 app:layout_constraintTop_toTopOf="@id/category_household_appliances"
                 app:spacing="4dp"
-                app:text="服务"
+                app:text="生活百货"
                 app:textSize="@dimen/category_text_size" />
 
             <com.example.yischool.customview.ImgTextButton
@@ -226,20 +226,20 @@
                 app:imageMarginTop="6dp"
                 app:imageWidth="25dp"
                 app:layout_constraintBottom_toBottomOf="@id/category_household_appliances"
-                app:layout_constraintLeft_toRightOf="@id/category_service"
-                app:layout_constraintRight_toLeftOf="@id/category_all"
+                app:layout_constraintLeft_toRightOf="@id/category_daily_articles"
+                app:layout_constraintRight_toLeftOf="@id/category_service"
                 app:layout_constraintTop_toTopOf="@id/category_household_appliances"
                 app:spacing="5dp"
                 app:text="体育运动"
                 app:textSize="@dimen/category_text_size" />
 
             <com.example.yischool.customview.ImgTextButton
-                android:id="@+id/category_all"
+                android:id="@+id/category_service"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                app:imageDrawable="@drawable/ic_all_category"
+                app:imageDrawable="@drawable/ic_service"
                 android:background="@drawable/imgtext_button_selector"
                 app:imageHeight="25dp"
                 app:imageMarginTop="6dp"
@@ -249,7 +249,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/category_household_appliances"
                 app:spacing="4dp"
-                app:text="全部分类"
+                app:text="服务"
                 app:textSize="@dimen/category_text_size" />
 
             <android.support.v7.widget.RecyclerView
@@ -264,6 +264,16 @@
                 app:layout_constraintTop_toBottomOf="@id/category_household_appliances">
 
             </android.support.v7.widget.RecyclerView>
+
+            <ViewStub
+                android:id="@+id/network_error_view_stub"
+                android:layout="@layout/network_error_layout"
+                android:inflatedId="@+id/network_error_inflateId"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/category_household_appliances"
+                android:background="@color/white"/>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

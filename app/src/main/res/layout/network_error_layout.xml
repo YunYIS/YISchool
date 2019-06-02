@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--没有网络时，加载出错提示界面-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/no_network_img"

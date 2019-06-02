@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_publish"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="622dp" />
+
+    <EditText
+        android:layout_width="292dp"
+        android:layout_height="29dp"
+        tools:layout_editor_absoluteX="49dp"
+        tools:layout_editor_absoluteY="622dp" />
+
+    <TextView
+        android:layout_width="51dp"
+        android:layout_height="26dp"
+        android:text="发送"
+        android:textColor="@color/colorPrimaryDark"
+        tools:layout_editor_absoluteX="351dp"
+        tools:layout_editor_absoluteY="624dp"
+        android:gravity="center"
+        android:textSize="16sp"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/account_img_test"
+        tools:layout_editor_absoluteX="344dp"
+        tools:layout_editor_absoluteY="509dp" />
+
+    <ImageView
+        android:id="@+id/message"
+        android:layout_width="181dp"
+        android:layout_height="46dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/message"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="513dp" />
+
+    <TextView
+        android:layout_width="172dp"
+        android:layout_height="39dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="YISchools聊天测试消息"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="@id/message"
+        app:layout_constraintBottom_toBottomOf="@id/message"
+        app:layout_constraintLeft_toLeftOf="@id/message"
+        app:layout_constraintRight_toRightOf="@id/message"/>
+</android.support.constraint.ConstraintLayout>

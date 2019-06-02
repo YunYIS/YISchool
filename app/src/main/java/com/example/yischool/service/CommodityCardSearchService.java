@@ -12,14 +12,16 @@ import com.example.yischool.Bean.ServerDatabaseBean.Category;
 import com.example.yischool.Bean.ServerDatabaseBean.Collection;
 import com.example.yischool.Bean.ServerDatabaseBean.Commodity;
 import com.example.yischool.Bean.ServerDatabaseBean.User;
-import com.example.yischool.Bean.ServerDatabaseBean.browsingHistory;
 import com.example.yischool.Bean.jsonBean.CommodityCardBean;
 import com.example.yischool.SearchResultActivity;
 import com.example.yischool.bmobNet.QueryHelper;
-import com.example.yischool.publish.ChoosePositionActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,6 +38,9 @@ import static com.example.yischool.SearchActivity.SEARCH_CONTENT;
 public class CommodityCardSearchService extends Service {
 
     public static final String LOG_TAG = "CommoditySearchService";
+
+    //分页限制条数
+    public static final int LIMIT_NUMBER = 20;
 
     /*
      * 查询动作请求码，区分handler返回的消息
@@ -58,8 +63,6 @@ public class CommodityCardSearchService extends Service {
      */
     //数据加载完成
     public static final int RESULT_COMPLETED = 11;
-
-
 
 
     //搜索内容
@@ -89,10 +92,12 @@ public class CommodityCardSearchService extends Service {
     private Handler activityHandler;
     //一个是处理，一个是发送
 
+    //分割的查询内容
     private HashSet<Character> contentChars;
-
+    //活动通信
     private MyBinder myBinder;
-
+    //保存活动传递的查询参数
+    private Intent startServiceIntent;
 
     @Override
     public void onCreate() {
@@ -116,12 +121,17 @@ public class CommodityCardSearchService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //每次搜索/请求数据
+
+        //每次搜索/请求的数据
         searchContentStr = intent.getStringExtra(SEARCH_CONTENT);
+        //获取查询参数
+        startServiceIntent = intent;
+        //分割搜索内容
         splitContentStr();
+        //先从类别开始查询
         queryInCategory();
 
-        stopSelf();
+        stopSelf();//结束活动
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -139,15 +149,15 @@ public class CommodityCardSearchService extends Service {
          * 查询大类别，结果在handler中接收
          */
         primaryCategorySet = new HashSet<>();
-        QueryHelper<Category> queryHelper1 = QueryHelper.getInstance();
+        BmobQuery bmobQuery = new BmobQuery<Category>();
+        QueryHelper queryHelper1 = QueryHelper.getInstance();
         //添加查询条件
         for(Character c : contentChars){
             queryHelper1.addOrContainsKey("primaryCategory", c.toString());
         }
-        BmobQuery<Category> bmobQuery = queryHelper1.combineQueryList()
+        queryHelper1.combineQueryList()
                 .resultColumnKeys("objectId")
-                .getBmobQuery();
-        QueryHelper.test.queryFormServer(bmobQuery, serviceHandler, REQUEST_PRIMARY_CATEGORY);
+                .queryFormServer(new Category() ,serviceHandler, REQUEST_PRIMARY_CATEGORY);
 
         /*
          * 查询小类别
@@ -158,9 +168,9 @@ public class CommodityCardSearchService extends Service {
         for(Character c : contentChars){
             queryHelper2.addOrContainsKey("secondaryCategory", c.toString());
         }
-//        queryHelper2.combineQueryList()
-//                .resultColumnKeys("objectId")
-//                .queryFormServer(serviceHandler, REQUEST_SECONDARY_CATEGORY);
+        queryHelper2.combineQueryList()
+                .resultColumnKeys("objectId")
+                .queryFormServer(new Category(), serviceHandler, REQUEST_SECONDARY_CATEGORY);
 
         /*
          * 查询具体类别
@@ -171,9 +181,9 @@ public class CommodityCardSearchService extends Service {
         for(Character c : contentChars){
             queryHelper3.addOrContainsKey("specificCategory", c.toString());
         }
-//        queryHelper3.combineQueryList()
-//                .resultColumnKeys("objectId")
-//                .queryFormServer(serviceHandler, REQUEST_SPEC_CATEGORY);
+        queryHelper3.combineQueryList()
+                .resultColumnKeys("objectId")
+                .queryFormServer(new Category(), serviceHandler, REQUEST_SPEC_CATEGORY);
 
     }
 
@@ -213,13 +223,47 @@ public class CommodityCardSearchService extends Service {
         for(Character c : contentChars){
             queryHelper.addOrContainsKey("title", c.toString());
         }
+        //添加 筛选条件
+        //@TODO
+
         queryHelper.combineQueryList();
         queryHelper.resultColumnKeys("title,price,pictureAndVideo,publishUser,objectId,browseCount");
-        //以浏览量排序
-        queryHelper.setOrder("browseCount");
+        /*
+         * 添加查询排序条件
+         */
+        if(startServiceIntent != null){
+
+            if(startServiceIntent.hasExtra(SearchResultActivity.KEY_SKIP_COUNT)){
+                queryHelper.setSkipCount(startServiceIntent.getIntExtra(SearchResultActivity.KEY_SKIP_COUNT, 0));
+            }
+
+            if(startServiceIntent.hasExtra(SearchResultActivity.KEY_ORDER)){
+
+                //综合排序按钮
+                String order = startServiceIntent.getStringExtra(SearchResultActivity.KEY_ORDER);
+                if(!order.equals("none")){
+                    queryHelper.setOrder(order);
+
+                }else if(startServiceIntent.hasExtra(SearchResultActivity.KEY_PRICE)){
+
+                    //没有设置综合排序时，才设置价格
+                    boolean priceType = startServiceIntent.getBooleanExtra(SearchResultActivity.KEY_PRICE, true);
+                    if(priceType){
+                        queryHelper.setOrder("price");
+                    }else {
+                        queryHelper.setOrder("-price");
+                    }
+                }
+            }
+
+        }
+
+        //分页加载，每页数量
+        queryHelper.setLimitNum(LIMIT_NUMBER);
+
         //内联查询用户
         queryHelper.setInclude("publishUser[username|headPortrait]");
-//        queryHelper.queryFormServer(serviceHandler, REQUEST_TITLE_COMMODITY);
+        queryHelper.queryFormServer(new Commodity(), serviceHandler, REQUEST_TITLE_COMMODITY);
     }
 
     /**
@@ -229,10 +273,23 @@ public class CommodityCardSearchService extends Service {
 
         if(commodityHashSet.size() > 0){
             QueryHelper<Collection> queryHelper = QueryHelper.getInstance();
-            queryHelper.addAndContainedInKey("collectCommodity", new ArrayList<>(commodityHashSet));
-            queryHelper.combineQueryList();
-            queryHelper.setGroupby(new String[]{"collectCommodity"});
-            queryHelper.queryStatisticsFormServer(Collection.class, serviceHandler, REQUEST_COLLECTION_COMMODITY);
+            //对统计结果进行过滤
+            HashMap<String, Object> map = new HashMap<>();
+            for(Commodity c : commodityHashSet){
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("$eq", c);
+                    map.put("collectCommodity", jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            queryHelper.setGroupby(new String[]{"collectCommodity"})
+                    .setHaving(map)
+                    .setLimitNum(20)
+                    .queryStatisticsFormServer(Collection.class, serviceHandler, REQUEST_COLLECTION_COMMODITY);
         }
     }
 
@@ -243,26 +300,50 @@ public class CommodityCardSearchService extends Service {
         Log.d(LOG_TAG, "commodity size: " + commodityHashSet.size());
         Log.d(LOG_TAG, "countList size: " + countList.size());
 
+        Boolean isCountSuccess = false;
         if(commodityHashSet.size() == countList.size()){
+            isCountSuccess = true;
+        }
 
-            int i = 0;
-            for(Commodity commodity : commodityHashSet){
+        int i = 0;
+        for(Commodity commodity : commodityHashSet) {
 
-                User user = commodity.getPublishUser();
-                CommodityCardBean card = new CommodityCardBean(commodity.getPictureAndVideo().get(0).getUrl(),
-                        commodity.getTitle(), commodity.getPrice(), countList.get(i),
-                        user.getHeadPortrait().getUrl(), user.getUsername(), commodity.getObjectId());
-                commodityCardHashSet.add(card);
-                ++i;
-            }
+            User user = commodity.getPublishUser();
+            CommodityCardBean card = new CommodityCardBean(commodity.getPictureAndVideo().get(0).getUrl(),
+                    commodity.getTitle(), commodity.getPrice(), isCountSuccess ? countList.get(i): 0,
+                    user.getHeadPortrait() == null ? null : user.getHeadPortrait().getUrl(),
+                    user.getUsername(), commodity.getObjectId());
+            commodityCardHashSet.add(card);
+            ++i;
+        }
 
-            //组装完成后，保存数据在Binder中,与活动通信
-            myBinder.setResultCards(commodityCardHashSet);
 
-            //通知活动数据加载完成，可以取出
-            Message message = new Message();
-            message.what = RESULT_COMPLETED;
-            activityHandler.sendMessage(message);
+
+        //组装完成后，保存数据在Binder中,与活动通信
+        myBinder.setResultCards(commodityCardHashSet);
+        Log.d(LOG_TAG, "mybinder: " + myBinder.resultCards.size());
+
+        //通知活动数据加载完成，可以取出
+        Message message = new Message();
+        message.what = RESULT_COMPLETED;
+        activityHandler.sendMessage(message);
+    }
+
+    private void startQueryCommodity(){
+        if(isPriSuccess && isSecSuccess && isSpecSuccess){
+
+            //取并集
+            categoryHashSet.addAll(primaryCategorySet);
+            categoryHashSet.retainAll(secondaryCategorySet);
+            categoryHashSet.retainAll(specCategorySet);
+
+            //在商品标题中查询
+            queryTitleInCommodity();
+
+        }else{
+            //如果有其中一项类别查询失败，依然可以从商品标题中查询，但是，不需要限制查询失败的那一项条件
+            //@TODO
+
         }
     }
 
@@ -281,27 +362,40 @@ public class CommodityCardSearchService extends Service {
             if(service != null){
                 if(msg.what == QueryHelper.QUERY_HELPER_SUCCESS){
 
+                    Log.d(LOG_TAG, "handler返回成功, arg1: " + msg.arg1);
                     //查询成功，处理返回结果
                     switch (msg.arg1){
                         case REQUEST_PRIMARY_CATEGORY:
+
                             service.isPriSuccess = true;
                             service.primaryCategorySet.addAll((List<Category>)msg.obj);
+                            service.startQueryCommodity();
                             break;
                         case REQUEST_SECONDARY_CATEGORY:
+
                             service.isSecSuccess = true;
                             service.secondaryCategorySet.addAll((List<Category>)msg.obj);
+                            service.startQueryCommodity();
                             break;
                         case REQUEST_SPEC_CATEGORY:
+
                             service.isSpecSuccess = true;
                             service.specCategorySet.addAll((List<Category>)msg.obj);
+                            service.startQueryCommodity();
                             break;
                         case REQUEST_TITLE_COMMODITY:
                             //查询商品成功
                             service.commodityHashSet.addAll((List<Commodity>)msg.obj);
+                            //没有查到商品
+                            if(service.commodityHashSet.size() == 0){
+                                //直接通知活动
+                                service.compoundCardData();
+                            }
                             //通过商品Id查询，收藏记录表获取收藏人数
                             service.queryCollections();
                             break;
                         case REQUEST_COLLECTION_COMMODITY:
+
                             Log.d(LOG_TAG, "商品收藏查询成功");
                             service.countList = (List<Integer>)msg.obj;
                             //开始组装商品卡片数据
@@ -310,18 +404,7 @@ public class CommodityCardSearchService extends Service {
 
                         default:break;
                     }
-                    //如果三个被别均查询成功
-                    if(service.isPriSuccess && service.isSecSuccess && service.isSpecSuccess){
 
-                        //取并集
-                        service.categoryHashSet.addAll(service.primaryCategorySet);
-                        service.categoryHashSet.retainAll(service.secondaryCategorySet);
-                        service.categoryHashSet.retainAll(service.specCategorySet);
-
-                        //在商品标题中查询
-                        service.queryTitleInCommodity();
-
-                    }
                 }else if(msg.what == QueryHelper.QUERY_HELPER_FAILED){
 
                     //查询失败，处理返回结果
@@ -343,6 +426,8 @@ public class CommodityCardSearchService extends Service {
                             break;
                         case REQUEST_COLLECTION_COMMODITY:
                             Log.d(LOG_TAG, "商品收藏查询失败");
+                            //开始组装商品卡片数据
+                            service.compoundCardData();
                             break;
                     }
                 }
@@ -353,7 +438,7 @@ public class CommodityCardSearchService extends Service {
 
     public class MyBinder extends Binder {
 
-        private HashSet<CommodityCardBean> resultCards = null;//保存查询到的类别数据
+        private HashSet<CommodityCardBean> resultCards = null;//保存查询到的商品卡片数据
 
         public HashSet<CommodityCardBean> getResultCards() {
             return resultCards;

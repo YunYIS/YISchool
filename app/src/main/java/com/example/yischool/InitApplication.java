@@ -7,6 +7,13 @@ import com.baidu.mapapi.SDKInitializer;
 import org.litepal.LitePalApplication;
 
 import com.example.yischool.Bean.ServerDatabaseBean.User;
+import com.example.yischool.session.MyMessageHandler;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+import cn.bmob.newim.BmobIM;
 import cn.bmob.v3.Bmob;
 
 public class InitApplication extends LitePalApplication {
@@ -20,6 +27,11 @@ public class InitApplication extends LitePalApplication {
         context = getContext();
         Bmob.initialize(this, "d9c46a4e0dbb4be72ae50f8aa9c5e122");
         SDKInitializer.initialize(getApplicationContext());
+        //TODO 集成：1.8、初始化IM SDK，并注册消息接收器
+        if (getApplicationInfo().packageName.equals(getMyProcessName())){
+            BmobIM.init(this);
+            BmobIM.registerDefaultMessageHandler(new MyMessageHandler());
+        }
     }
     /**
      * 获得一个应用程序级别的Context
@@ -41,5 +53,22 @@ public class InitApplication extends LitePalApplication {
      */
     public static void setCurrentUser(User user){
         currentUser = user;
+    }
+
+    /**
+     * 获取当前运行的进程名
+     * @return
+     */
+    public static String getMyProcessName() {
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+            String processName = mBufferedReader.readLine().trim();
+            mBufferedReader.close();
+            return processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
